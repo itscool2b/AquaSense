@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 720" role="img" aria-labelledby="title desc">
+  <title id="title">AquaSense Gravity wiring — T-A7670G with GPS</title>
+  <desc id="desc">DFRobot Gravity analog PH2.0 is red VCC, black GND, blue analog. Those three land on a screw-terminal breakout, then one signal wire per probe to the LilyGO GPIO in the table. GPIO numbers from the LilyGO A7670 ESP32 README (GPS SKU).</desc>
+  <rect width="1100" height="720" fill="#07151C"/>
+  <text x="40" y="40" fill="#E6D5B8" font-family="Georgia, serif" font-size="22">Wiring — Gravity cables, no custom PCB</text>
+  <text x="40" y="62" fill="#8BA8A6" font-family="ui-sans-serif, system-ui" font-size="12">Cable colors are DFRobot Gravity PH2.0 (red + / black ? / blue A). Probe highlight colors match the build-step table.</text>
+
+  <!-- Gravity convention -->
+  <rect x="40" y="80" width="280" height="70" rx="8" fill="#0C1F28" stroke="rgba(230,213,184,0.16)"/>
+  <text x="56" y="104" fill="#F4F1EA" font-family="ui-sans-serif, system-ui" font-size="13">Every analog Gravity plug</text>
+  <rect x="56" y="118" width="14" height="14" fill="#C4452D"/><text x="76" y="130" fill="#F4F1EA" font-size="12" font-family="ui-sans-serif, system-ui">red = +  (3V3)</text>
+  <rect x="170" y="118" width="14" height="14" fill="#1a1a1a" stroke="#F4F1EA"/><text x="190" y="130" fill="#F4F1EA" font-size="12" font-family="ui-sans-serif, system-ui">black = ?</text>
+  <rect x="56" y="138" width="14" height="14" fill="#3D7EA6"/><text x="76" y="150" fill="#F4F1EA" font-size="12" font-family="ui-sans-serif, system-ui">blue = A  (signal)</text>
+
+  <rect x="340" y="80" width="300" height="70" rx="8" fill="#0C1F28" stroke="#1FA6A0"/>
+  <text x="356" y="104" fill="#1FA6A0" font-family="ui-sans-serif, system-ui" font-size="13">Screw terminal (Adafruit 2711)</text>
+  <text x="356" y="126" fill="#8BA8A6" font-family="ui-sans-serif, system-ui" font-size="12">Land Gravity PH2.0 here. Jumper 3V3 and GND</text>
+  <text x="356" y="144" fill="#8BA8A6" font-family="ui-sans-serif, system-ui" font-size="12">as shared rails. One signal wire per GPIO.</text>
+
+  <rect x="660" y="80" width="400" height="560" rx="10" fill="#0C1F28" stroke="#1FA6A0" stroke-width="1.5"/>
+  <text x="680" y="108" fill="#F4F1EA" font-family="ui-sans-serif, system-ui" font-size="14">T-A7670G R2 with GPS — header</text>
+  <text x="680" y="128" fill="#8BA8A6" font-family="ui-sans-serif, system-ui" font-size="11">Do not jumper GPIO 4 (PWRKEY) or GPIO 5 (RST)</text>
+  <g font-family="ui-monospace, monospace" font-size="13">
+    <text x="680" y="168" fill="#F4F1EA">3V3     shared analog VCC</text>
+    <text x="680" y="196" fill="#F4F1EA">GND     shared analog GND</text>
+    <text x="680" y="240" fill="#1FA6A0">GPIO 32 pH analog (SEN0169-V2)</text>
+    <text x="680" y="284" fill="#E6D5B8">GPIO 34 EC analog (DFR0300-H)</text>
+    <text x="680" y="328" fill="#C4452D">GPIO 39 DO analog (SEN0237-A)</text>
+    <text x="680" y="372" fill="#F4F1EA">GPIO 18 DS18B20 data (KIT0021)</text>
+    <text x="680" y="416" fill="#7EB6D9">GPIO 16 MS5803 SDA</text>
+    <text x="680" y="460" fill="#7EB6D9">GPIO 17 MS5803 SCL</text>
+    <text x="680" y="504" fill="#8BA8A6">GPIO 12 firmware holds HIGH</text>
+    <text x="680" y="540" fill="#8BA8A6">GPIO 21/22 GNSS UART — not I2C</text>
+    <text x="680" y="576" fill="#8BA8A6">GPIO 2  SD MISO — remove SD to flash</text>
+  </g>
+
+  <g font-family="ui-sans-serif, system-ui" font-size="13">
+    <rect x="40" y="170" width="280" height="72" rx="8" fill="#0C1F28" stroke="#1FA6A0"/>
+    <text x="56" y="194" fill="#1FA6A0">1. SEN0169-V2 pH</text>
+    <text x="56" y="214" fill="#8BA8A6" font-size="11">blue A ? terminal ? GPIO 32</text>
+    <text x="56" y="230" fill="#8BA8A6" font-size="11">red + ? 3V3 · black ? ? GND</text>
+    <line x1="320" y1="206" x2="660" y2="236" stroke="#1FA6A0" stroke-width="2"/>
+
+    <rect x="40" y="256" width="280" height="72" rx="8" fill="#0C1F28" stroke="#E6D5B8"/>
+    <text x="56" y="280" fill="#E6D5B8">2. DFR0300-H EC K=10</text>
+    <text x="56" y="300" fill="#8BA8A6" font-size="11">blue A ? terminal ? GPIO 34</text>
+    <text x="56" y="316" fill="#8BA8A6" font-size="11">red + ? 3V3 · black ? ? GND</text>
+    <line x1="320" y1="292" x2="660" y2="280" stroke="#E6D5B8" stroke-width="2"/>
+
+    <rect x="40" y="342" width="280" height="72" rx="8" fill="#0C1F28" stroke="#C4452D"/>
+    <text x="56" y="366" fill="#C4452D">3. SEN0237-A DO</text>
+    <text x="56" y="386" fill="#8BA8A6" font-size="11">blue A ? terminal ? GPIO 39</text>
+    <text x="56" y="402" fill="#8BA8A6" font-size="11">red + ? 3V3 · black ? ? GND</text>
+    <line x1="320" y1="378" x2="660" y2="324" stroke="#C4452D" stroke-width="2"/>
+
+    <rect x="40" y="428" width="280" height="72" rx="8" fill="#0C1F28" stroke="#F4F1EA"/>
+    <text x="56" y="452" fill="#F4F1EA">4. KIT0021 DS18B20</text>
+    <text x="56" y="472" fill="#8BA8A6" font-size="11">data ? GPIO 18 (kit has pull-up)</text>
+    <text x="56" y="488" fill="#8BA8A6" font-size="11">VCC 3V3 · GND</text>
+    <line x1="320" y1="464" x2="660" y2="368" stroke="#F4F1EA" stroke-width="2"/>
+
+    <rect x="40" y="514" width="280" height="88" rx="8" fill="#0C1F28" stroke="#7EB6D9"/>
+    <text x="56" y="538" fill="#7EB6D9">5. MS5803-14BA (I2C)</text>
+    <text x="56" y="558" fill="#8BA8A6" font-size="11">SDA ? GPIO 16 · SCL ? GPIO 17</text>
+    <text x="56" y="574" fill="#8BA8A6" font-size="11">3V3 · GND. Not a sixth analog probe.</text>
+    <text x="56" y="590" fill="#8BA8A6" font-size="11">Pot the breakout; gel is face-only.</text>
+    <line x1="320" y1="550" x2="660" y2="412" stroke="#7EB6D9" stroke-width="2"/>
+  </g>
+
+  <text x="40" y="640" fill="#8BA8A6" font-family="ui-sans-serif, system-ui" font-size="12">Five sensors. Transmitters stay on 3V3 (no MOSFET). PG glands through the Pelican bottom only.</text>
+  <text x="40" y="662" fill="#8BA8A6" font-family="ui-sans-serif, system-ui" font-size="12">Source: LilyGO A7670 ESP32 README (GPS SKU). Same numbers in hardware/pinmap.md and firmware/include/pins.h.</text>
+  <text x="40" y="690" fill="#E6D5B8" font-family="ui-sans-serif, system-ui" font-size="12">If the photoreal hero disagrees with this drawing, this drawing wins.</text>
+</svg>

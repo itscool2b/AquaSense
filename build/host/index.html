@@ -1,0 +1,15 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>2. Stand up your website — AquaSense</title><meta name="description" content="A solar buoy that sits on the water, measures a few stats, uses cellular internet to send them to a website you host."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/AquaSense/_astro/bom.BnvcSDl1.css"></head> <body> <div class="wrap"> <nav class="nav"> <a class="wordmark" href="/AquaSense/"> <img src="/AquaSense/images/wordmark.svg" width="28" height="28" alt="">
+AquaSense
+</a> <div class="nav-links"> <a href="/AquaSense/build/">Build</a> <a href="/AquaSense/build/bom/">BOM</a> <a href="/AquaSense/dashboard/">Dashboard</a> <a href="/AquaSense/docs/accuracy/">Limits</a> </div> </nav>  <p class="kicker">Step 2 of 9</p> <h1>Stand up your website</h1> <p class="lede">A solar buoy that sits on the water, measures a few stats, uses cellular internet to send them to a website you host. This step is the website. We do not run one.</p> <div class="callout"> <strong>The LTE radio cannot see this laptop.</strong> The simulator is how you test the website.
+    The buoy only POSTs if <code>ingest_url</code> is a public <code>https://</code> address (your VPS or a tunnel in front of port 8080).
+</div> <p>Install Docker Desktop (or Docker Engine). From the repo:</p> <pre><code>cd selfhost
+cp .env.example .env
+docker compose up --build</code></pre> <p>Open <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>. Then, in another terminal:</p> <pre><code>python3 scripts/simulate-buoy.py</code></pre> <p>Refresh the dashboard. You should see gauges, 24h/7d charts, and a map pin. No hardware yet. For a full day of chart points:</p> <pre><code>COUNT=96 python3 scripts/simulate-buoy.py</code></pre> <h2>The buoy cannot see localhost</h2> <p>
+The T-A7670G uses LTE. It will never reach <code>127.0.0.1</code> on your laptop.
+    The simulator is for you. For a real POST, put this same compose stack on a VPS
+    (or a tunnel in front of port 8080) and use an <code>https://</code> URL in
+<code>config.json</code>. Optional: the same app on <em>your</em> Netlify or VPS — not ours.
+</p> <div class="checkpoint"> <strong>Checkpoint.</strong> Localhost dashboard shows a reading after the simulator. Token in <code>selfhost/.env</code> matches what you will put on the SD card.
+</div> <div class="pager"> <a href="/AquaSense/build/bom/">← Buy</a> <a href="/AquaSense/build/flash/">Next: flash the board →</a> </div>  <footer class="footer">
+Open hardware. We host nothing. MIT firmware · CERN-OHL-S hardware · CC BY 4.0 docs.
+</footer> </div> </body></html>

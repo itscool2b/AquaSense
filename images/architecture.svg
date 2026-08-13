@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 280" role="img" aria-labelledby="t">
+  <title id="t">AquaSense architecture</title>
+  <rect width="760" height="280" fill="#07151C"/>
+  <text x="24" y="32" fill="#E6D5B8" font-family="Georgia, serif" font-size="18">Your buoy ? your website</text>
+
+  <rect x="24" y="52" width="220" height="200" rx="12" fill="#0C1F28" stroke="#1FA6A0"/>
+  <text x="40" y="80" fill="#1FA6A0" font-family="ui-sans-serif, system-ui" font-size="12">YOUR BUOY</text>
+  <text x="40" y="108" fill="#F4F1EA" font-family="ui-sans-serif, system-ui" font-size="13">10 W solar + 18650</text>
+  <text x="40" y="130" fill="#F4F1EA" font-family="ui-sans-serif, system-ui" font-size="13">T-A7670G LTE + GPS</text>
+  <text x="40" y="152" fill="#F4F1EA" font-family="ui-sans-serif, system-ui" font-size="13">pH · EC · DO · temp · depth</text>
+  <text x="40" y="184" fill="#8BA8A6" font-family="ui-sans-serif, system-ui" font-size="12">Sleep 15 min · CSV on SD</text>
+  <text x="40" y="206" fill="#8BA8A6" font-family="ui-sans-serif, system-ui" font-size="12">HTTPS POST ingest_url</text>
+  <text x="40" y="228" fill="#8BA8A6" font-family="ui-sans-serif, system-ui" font-size="12">LTE cannot see localhost</text>
+
+  <polygon points="258,152 292,138 292,166" fill="#1FA6A0"/>
+
+  <rect x="308" y="52" width="180" height="200" rx="12" fill="#0C1F28" stroke="#E6D5B8"/>
+  <text x="324" y="80" fill="#E6D5B8" font-family="ui-sans-serif, system-ui" font-size="12">YOUR INGEST</text>
+  <text x="324" y="118" fill="#F4F1EA" font-family="ui-sans-serif, system-ui" font-size="13">docker compose up</text>
+  <text x="324" y="140" fill="#F4F1EA" font-family="ui-sans-serif, system-ui" font-size="13">POST /api/v1/ingest</text>
+  <text x="324" y="172" fill="#8BA8A6" font-family="ui-sans-serif, system-ui" font-size="12">Postgres on your machine</text>
+  <text x="324" y="194" fill="#8BA8A6" font-family="ui-sans-serif, system-ui" font-size="12">We host nothing</text>
+
+  <polygon points="502,152 536,138 536,166" fill="#1FA6A0"/>
+
+  <rect x="552" y="52" width="184" height="200" rx="12" fill="#0C1F28" stroke="#F4F1EA"/>
+  <text x="568" y="80" fill="#F4F1EA" font-family="ui-sans-serif, system-ui" font-size="12">YOUR DASHBOARD</text>
+  <text x="568" y="118" fill="#F4F1EA" font-family="ui-sans-serif, system-ui" font-size="13">Gauges</text>
+  <text x="568" y="140" fill="#F4F1EA" font-family="ui-sans-serif, system-ui" font-size="13">24h / 7d charts</text>
+  <text x="568" y="162" fill="#F4F1EA" font-family="ui-sans-serif, system-ui" font-size="13">Map · last-seen</text>
+  <text x="568" y="194" fill="#8BA8A6" font-family="ui-sans-serif, system-ui" font-size="12">localhost:8080</text>
+  <text x="568" y="216" fill="#8BA8A6" font-family="ui-sans-serif, system-ui" font-size="12">Pages = simulated</text>
+</svg>

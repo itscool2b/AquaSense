@@ -1,0 +1,15 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>3. Flash the board — AquaSense</title><meta name="description" content="A solar buoy that sits on the water, measures a few stats, uses cellular internet to send them to a website you host."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/AquaSense/_astro/bom.BnvcSDl1.css"></head> <body> <div class="wrap"> <nav class="nav"> <a class="wordmark" href="/AquaSense/"> <img src="/AquaSense/images/wordmark.svg" width="28" height="28" alt="">
+AquaSense
+</a> <div class="nav-links"> <a href="/AquaSense/build/">Build</a> <a href="/AquaSense/build/bom/">BOM</a> <a href="/AquaSense/dashboard/">Dashboard</a> <a href="/AquaSense/docs/accuracy/">Limits</a> </div> </nav>  <p class="kicker">Step 3 of 9</p> <h1>Flash the board</h1> <p class="lede">USB-A to USB-C only. LilyGO will not power from USB-C to USB-C. Remove the microSD card first — SD uses GPIO 2, which fights the USB bootloader.</p> <h2>Install PlatformIO</h2> <p>VS Code + PlatformIO, or the CLI:</p> <pre><code>pip install platformio
+cd firmware
+pio run -e lilygo-t-a7670g -t upload
+pio device monitor -e lilygo-t-a7670g</code></pre> <h2>Arduino IDE path</h2> <p>
+Board: ESP32 Dev Module, PSRAM enabled, huge app partition.
+    Install <a href="https://github.com/lewisxhe/TinyGSM-fork">TinyGSM-fork (lewisxhe)</a>,
+    not mainline TinyGSM. Define <code>TINY_GSM_MODEM_A7670</code> and
+<code>TINY_GSM_FORK_LIBRARY</code>. First Windows/macOS connect may need the CH9102 driver
+    from the <a href="https://github.com/Xinyuan-LilyGO/LilyGo-Modem-Series">LilyGO repo</a>.
+</p> <div class="callout">Do not jumper GPIO 4 (PWRKEY) or GPIO 5 (RST). On battery, firmware must hold GPIO 12 HIGH or the board resets.</div> <p>After boot, serial waits 12 seconds for <code>cal</code> so you can calibrate without the board sleeping. See <a href="/AquaSense/build/calibrate/">step 5</a>.</p> <div class="checkpoint"> <strong>Checkpoint.</strong> Serial monitor prints <code>AquaSense boot</code> and the one-sentence idea. If upload fails, take the SD card out and use a USB-A port.
+</div> <div class="pager"> <a href="/AquaSense/build/host/">← Host</a> <a href="/AquaSense/build/config/">Next: config the SD card →</a> </div>  <footer class="footer">
+Open hardware. We host nothing. MIT firmware · CERN-OHL-S hardware · CC BY 4.0 docs.
+</footer> </div> </body></html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>4. Config the SD card — AquaSense</title><meta name="description" content="A solar buoy that sits on the water, measures a few stats, uses cellular internet to send them to a website you host."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/AquaSense/_astro/bom.BnvcSDl1.css"></head> <body> <div class="wrap"> <nav class="nav"> <a class="wordmark" href="/AquaSense/"> <img src="/AquaSense/images/wordmark.svg" width="28" height="28" alt="">
+AquaSense
+</a> <div class="nav-links"> <a href="/AquaSense/build/">Build</a> <a href="/AquaSense/build/bom/">BOM</a> <a href="/AquaSense/dashboard/">Dashboard</a> <a href="/AquaSense/docs/accuracy/">Limits</a> </div> </nav>  <p class="kicker">Step 4 of 9</p> <h1>Config the SD card</h1> <p class="lede">FAT32 microSD. Copy <code>firmware/data/config.example.json</code> to the card as <code>config.json</code>. Real tokens never go in git.</p> <pre><code>{
+  &quot;ingest_url&quot;: &quot;https://YOUR-HOST/api/v1/ingest&quot;,
+  &quot;device_id&quot;: &quot;buoy-01&quot;,
+  &quot;token&quot;: &quot;change-me&quot;,
+  &quot;apn&quot;: &quot;iot.1nce.net&quot;,
+  &quot;sample_period_s&quot;: 900,
+  &quot;p_atm_mbar&quot;: 1013.25,
+  &quot;stay_awake&quot;: false
+}</code></pre> <ul> <li><code>ingest_url</code> — your public HTTPS ingest, not localhost, not an AquaSense cloud (there isn’t one).</li> <li><code>token</code> — same string as <code>INGEST_TOKEN</code> in <code>selfhost/.env</code>.</li> <li><code>apn</code> — 1NCE default is <code>iot.1nce.net</code>. Other SIMs: use the carrier APN.</li> <li><code>sample_period_s</code> — 900 is a 15-minute FDEP-style cadence.</li> <li><code>stay_awake</code> — <code>true</code> skips the 12 s window and stays in serial calibration mode (desk). Leave <code>false</code> on the water.</li> </ul> <p class="muted">Insert the SIM before first battery power. Eject the SD card before the next USB flash.</p> <div class="checkpoint"> <strong>Checkpoint.</strong> You can open <code>config.json</code> on a computer and the URL is yours. After boot, serial says it loaded the file (or warns if it did not).
+</div> <div class="pager"> <a href="/AquaSense/build/flash/">← Flash</a> <a href="/AquaSense/build/calibrate/">Next: calibrate →</a> </div>  <footer class="footer">
+Open hardware. We host nothing. MIT firmware · CERN-OHL-S hardware · CC BY 4.0 docs.
+</footer> </div> </body></html>
