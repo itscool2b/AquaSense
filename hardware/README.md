@@ -8,6 +8,6 @@ Default build: **Gravity cables + screw terminals** in an IP67 box. No custom PC
 - [diagrams/exploded.svg](diagrams/exploded.svg) — hull layers, five sensors
 - [diagrams/architecture.svg](diagrams/architecture.svg) — buoy → your ingest
 - [scad/tray.scad](scad/tray.scad) — optional PETG tray
-- [kicad/](kicad/) — optional carrier notes, not step 1
+- [kicad/](kicad/) — optional schematic (same GPIO netlist). Default build is still screw terminals.
 
 Hardware design files are CERN-OHL-S-2.0.

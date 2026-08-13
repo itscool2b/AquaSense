@@ -21,6 +21,7 @@ import Base from "../../layouts/Base.astro";
     <li>Shared 3V3 and GND. Transmitters stay powered (no MOSFET).</li>
     <li>GPS SKU: GPIO 21/22 are GNSS UART. Do not use them as I2C.</li>
     <li>Do not jumper GPIO 4 or 5. Remove the microSD card before USB flash (GPIO 2).</li>
+    <li>Optional carrier schematic (same nets): <code>hardware/kicad/</code>. Default is still this screw-terminal box.</li>
     <li>PG glands through the <em>bottom</em> of the Pelican. Silicone on threads.</li>
   </ul>
   <p class="muted">GPIO numbers: <a href="https://github.com/Xinyuan-LilyGO/LilyGo-Modem-Series/blob/main/docs/en/esp32/a7670-esp32/README.MD">LilyGO A7670 ESP32 README</a>. Same table in <code>hardware/pinmap.md</code> and <code>firmware/include/pins.h</code>. If a picture disagrees, the table wins.</p>

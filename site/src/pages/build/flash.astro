@@ -23,6 +23,7 @@ pio device monitor -e lilygo-t-a7670g</code></pre>
   </p>
 
   <div class="callout">Do not jumper GPIO 4 (PWRKEY) or GPIO 5 (RST). On battery, firmware must hold GPIO 12 HIGH or the board resets.</div>
+  <p>After boot, serial waits 12 seconds for <code>cal</code> so you can calibrate without the board sleeping. See <a href={`${import.meta.env.BASE_URL}build/calibrate/`}>step 5</a>.</p>
 
   <div class="checkpoint">
     <strong>Checkpoint.</strong> Serial monitor prints <code>AquaSense boot</code> and the one-sentence idea. If upload fails, take the SD card out and use a USB-A port.

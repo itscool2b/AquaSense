@@ -11,6 +11,8 @@
 #include <Arduino.h>
 #include <math.h>
 #include <ArduinoJson.h>
+#include <EEPROM.h>
+#include <Preferences.h>
 #include <SD.h>
 #include <SPI.h>
 #include <Wire.h>
@@ -29,6 +31,7 @@ DallasTemperature dallas(&oneWire);
 DFRobot_PH phSensor;
 DFRobot_EC10 ecSensor;
 MS5803 depthSensor(ADDRESS_HIGH);
+Preferences prefs;
 
 TinyGsm modem(SerialAT);
 
@@ -38,6 +41,10 @@ String token = "change-me";
 String apn = "iot.1nce.net";
 uint32_t samplePeriodS = SAMPLE_PERIOD_S;
 float pAtmMbar = 1013.25f;
+bool stayAwake = false;
+
+float doMvZero = NAN;
+float doMvAir = NAN;
 
 static int cmpFloat(const void *a, const void *b) {
   float fa = *(const float *)a;
@@ -53,6 +60,27 @@ static float medianMilliVolts(int pin) {
   }
   qsort(buf, ADC_SAMPLES, sizeof(float), cmpFloat);
   return buf[ADC_SAMPLES / 2];
+}
+
+static void loadDoCal() {
+  prefs.begin("aquasense", true);
+  if (prefs.getBool("do_ok", false)) {
+    doMvZero = prefs.getFloat("do_z", NAN);
+    doMvAir = prefs.getFloat("do_a", NAN);
+  } else {
+    doMvZero = NAN;
+    doMvAir = NAN;
+  }
+  prefs.end();
+}
+
+static void saveDoCal() {
+  prefs.begin("aquasense", false);
+  prefs.putFloat("do_z", doMvZero);
+  prefs.putFloat("do_a", doMvAir);
+  prefs.putBool("do_ok", isfinite(doMvZero) && isfinite(doMvAir) &&
+                             (doMvAir > doMvZero + 10.0f));
+  prefs.end();
 }
 
 static bool loadConfig() {
@@ -85,6 +113,9 @@ static bool loadConfig() {
   }
   if (doc["p_atm_mbar"].is<float>()) {
     pAtmMbar = doc["p_atm_mbar"].as<float>();
+  }
+  if (doc["stay_awake"].is<bool>()) {
+    stayAwake = doc["stay_awake"].as<bool>();
   }
   return true;
 }
@@ -173,6 +204,147 @@ static void pulseModemPower() {
   digitalWrite(BOARD_PWRKEY_PIN, LOW);
 }
 
+static float readTempC() {
+  dallas.requestTemperatures();
+  float tempC = dallas.getTempCByIndex(0);
+  if (tempC < -50) {
+    tempC = 25.0f;
+  }
+  return tempC;
+}
+
+static float batteryVolts() {
+  /* LilyGO ReadBattery.ino (V1.2+): 100 kΩ / 100 kΩ on GPIO 35, so
+     analogReadMilliVolts() * 2. ADC_11db as in that example.
+     https://github.com/Xinyuan-LilyGO/LilyGo-Modem-Series/blob/main/examples/Arduino_Devices_Testing/ReadBattery/ReadBattery.ino
+     V1.1 has no divider — do not use ×2 on V1.1. Issue #33 measured 100k/100k
+     in-circuit on later revs. */
+  int batRaw = analogReadMilliVolts(BOARD_BAT_ADC_PIN);
+  return batRaw / 1000.0f * 2.0f;
+}
+
+static void printSample(float tempC, float phMv, float ecMv, float doMv, float ph,
+                        float spcond, float doMgl, float doSat, float doPct) {
+  Serial.printf("T=%.2f C  pH_mV=%.0f pH=%.2f  EC_mV=%.0f mS/cm=%.2f\n", tempC, phMv,
+                ph, ecMv, spcond);
+  Serial.printf("DO_mV=%.0f  do_mgl=", doMv);
+  if (isnan(doMgl)) {
+    Serial.print("null (uncalibrated — doair + dozero)");
+  } else {
+    Serial.printf("%.2f", doMgl);
+  }
+  Serial.printf("  sat=%.2f  do_pct=", doSat);
+  if (isnan(doPct)) {
+    Serial.println("null");
+  } else {
+    Serial.printf("%.1f\n", doPct);
+  }
+}
+
+static String readSerialLine() {
+  static String buf;
+  while (Serial.available()) {
+    char c = (char)Serial.read();
+    if (c == '\n' || c == '\r') {
+      String out = buf;
+      buf = "";
+      out.trim();
+      if (out.length()) {
+        return out;
+      }
+    } else if (buf.length() < 32) {
+      buf += c;
+    }
+  }
+  return "";
+}
+
+static void runCalMode() {
+  Serial.println("CAL MODE — board stays awake. USB serial, 115200, NL.");
+  Serial.println("DO:  doair (air-sat water, pump ~20 min)  dozero (zero solution)");
+  Serial.println("     dostatus   sample");
+  Serial.println("pH:  enterph  calph  exitph     EC:  enterec  calec  exitec");
+  Serial.println("sleep — one POST, then deep-sleep");
+
+  while (true) {
+    float tempC = readTempC();
+    float phMv = medianMilliVolts(PIN_PH_ADC);
+    float ecMv = medianMilliVolts(PIN_EC_ADC);
+    float doMv = medianMilliVolts(PIN_DO_ADC);
+    /* EC calec uses _ecvalueRaw from the last readEC. */
+    float spcond = ecSensor.readEC(ecMv, tempC);
+    float ph = phSensor.readPH(phMv, tempC);
+    float sal = (float)aquasense_salinity_psu(spcond);
+    float doSat = (float)aquasense_do_sat_mgl(tempC, isnan(sal) ? 0 : sal, 1.0);
+    float doMgl = (float)aquasense_do_mgl_from_mv(doMv, doMvZero, doMvAir, doSat);
+    float doPct = (float)aquasense_do_percent(doMgl, doSat);
+
+    String cmd = readSerialLine();
+    if (cmd.length()) {
+      String lower = cmd;
+      lower.toLowerCase();
+      if (lower == "sleep") {
+        Serial.println("Leaving CAL MODE.");
+        return;
+      }
+      if (lower == "doair") {
+        doMvAir = doMv;
+        saveDoCal();
+        Serial.printf("Stored DO air-sat mV = %.1f (sat %.2f mg/L at %.1f C)\n", doMvAir,
+                      doSat, tempC);
+      } else if (lower == "dozero") {
+        doMvZero = doMv;
+        saveDoCal();
+        Serial.printf("Stored DO zero mV = %.1f\n", doMvZero);
+      } else if (lower == "dostatus") {
+        Serial.printf("DO cal: zero_mV=");
+        if (isnan(doMvZero)) {
+          Serial.print("unset");
+        } else {
+          Serial.printf("%.1f", doMvZero);
+        }
+        Serial.print("  air_mV=");
+        if (isnan(doMvAir)) {
+          Serial.println("unset");
+        } else {
+          Serial.printf("%.1f\n", doMvAir);
+        }
+      } else if (lower == "sample") {
+        printSample(tempC, phMv, ecMv, doMv, ph, spcond, doMgl, doSat, doPct);
+      } else {
+        /* DFRobot EC strupr walks until a space — keep a trailing one. */
+        char buf[16];
+        snprintf(buf, sizeof(buf), "%s ", lower.c_str());
+        phSensor.calibration(phMv, tempC, buf);
+        snprintf(buf, sizeof(buf), "%s ", lower.c_str());
+        ecSensor.calibration(ecMv, tempC, buf);
+        EEPROM.commit();
+      }
+    }
+    delay(200);
+  }
+}
+
+static bool waitForCal() {
+  if (stayAwake) {
+    Serial.println("stay_awake in config.json — entering CAL MODE.");
+    return true;
+  }
+  Serial.println("Type cal within 12s to stay awake for calibration.");
+  unsigned long t0 = millis();
+  while (millis() - t0 < 12000) {
+    String cmd = readSerialLine();
+    if (cmd.length()) {
+      cmd.toLowerCase();
+      if (cmd == "cal") {
+        return true;
+      }
+    }
+    delay(50);
+  }
+  return false;
+}
+
 void setup() {
   Serial.begin(115200);
   delay(200);
@@ -184,6 +356,10 @@ void setup() {
   digitalWrite(BOARD_POWERON_PIN, HIGH);
 
   analogReadResolution(12);
+  analogSetAttenuation(ADC_11db);
+
+  EEPROM.begin(64);
+  loadDoCal();
 
   SPI.begin(BOARD_SCK_PIN, BOARD_MISO_PIN, BOARD_MOSI_PIN, BOARD_SD_CS_PIN);
   if (!SD.begin(BOARD_SD_CS_PIN)) {
@@ -211,16 +387,16 @@ void setup() {
   Serial2.begin(9600, SERIAL_8N1, GNSS_RX_PIN, GNSS_TX_PIN);
   pinMode(GNSS_WAKE_PIN, OUTPUT);
   digitalWrite(GNSS_WAKE_PIN, HIGH);
+
+  if (waitForCal()) {
+    runCalMode();
+  }
 }
 
 void loop() {
   delay(SENSOR_WARMUP_MS);
 
-  dallas.requestTemperatures();
-  float tempC = dallas.getTempCByIndex(0);
-  if (tempC < -50) {
-    tempC = 25.0f;
-  }
+  float tempC = readTempC();
 
   float phMv = medianMilliVolts(PIN_PH_ADC);
   float ecMv = medianMilliVolts(PIN_EC_ADC);
@@ -228,25 +404,14 @@ void loop() {
 
   float ph = phSensor.readPH(phMv, tempC);
   float spcond = ecSensor.readEC(ecMv, tempC);
-  /* SEN0237 two-point is stored by the DFRobot example as linear mV→mg/L.
-     Until calibrated, report millivolts-derived placeholder via 0–20 mg/L
-     over 0–3000 mV (datasheet analog span 0–3.0 V). Calibrate on the desk. */
-  float doMgl = (doMv / 3000.0f) * 20.0f;
-  if (doMgl < 0) {
-    doMgl = 0;
-  }
-
   float sal = (float)aquasense_salinity_psu(spcond);
   float doSat = (float)aquasense_do_sat_mgl(tempC, isnan(sal) ? 0 : sal, 1.0);
+  float doMgl = (float)aquasense_do_mgl_from_mv(doMv, doMvZero, doMvAir, doSat);
   float doPct = (float)aquasense_do_percent(doMgl, doSat);
 
   float pMbar = (float)depthSensor.getPressure(ADC_4096);
   float depthM = (float)aquasense_depth_m(pMbar, pAtmMbar);
-
-  int batRaw = analogReadMilliVolts(BOARD_BAT_ADC_PIN);
-  /* LilyGO battery ADC is a divider; millivolts × 2 is the usual 1:1 pad
-     until you measure the exact ratio on your board. */
-  float battV = batRaw / 1000.0f * 2.0f;
+  float battV = batteryVolts();
 
   double lat = 0, lon = 0;
   String nmea;
@@ -268,12 +433,20 @@ void loop() {
   doc["ph"] = ph;
   doc["spcond_ms_cm"] = spcond;
   doc["sal_psu"] = sal;
-  doc["do_mgl"] = doMgl;
-  doc["do_pct"] = doPct;
+  if (isnan(doMgl)) {
+    doc["do_mgl"] = nullptr;
+  } else {
+    doc["do_mgl"] = doMgl;
+  }
+  if (isnan(doPct)) {
+    doc["do_pct"] = nullptr;
+  } else {
+    doc["do_pct"] = doPct;
+  }
   doc["depth_m"] = depthM;
   doc["batt_v"] = battV;
   doc["rssi"] = modem.getSignalQuality();
-  doc["fw"] = "0.1.0";
+  doc["fw"] = "0.2.0";
 
   char json[768];
   size_t n = serializeJson(doc, json, sizeof(json));

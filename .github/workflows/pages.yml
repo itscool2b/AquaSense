@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -26,6 +26,15 @@ jobs:
       - name: Build
         working-directory: site
         run: npm ci && npm run build
+      - name: Publish gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: site/dist
+          force_orphan: true
+          enable_jekyll: false
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site/dist
@@ -33,6 +42,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    continue-on-error: true
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

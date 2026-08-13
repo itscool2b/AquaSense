@@ -4,5 +4,6 @@
   "token": "change-me",
   "apn": "iot.1nce.net",
   "sample_period_s": 900,
-  "p_atm_mbar": 1013.25
+  "p_atm_mbar": 1013.25,
+  "stay_awake": false
 }

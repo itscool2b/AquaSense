@@ -13,8 +13,8 @@ import Base from "../../layouts/Base.astro";
   <h2>Sensors (manufacturer claims)</h2>
   <ul>
     <li><strong>SEN0169-V2 pH</strong> — analog 0–3.0 V; DFRobot industrial probe. Wiki: two-point calibration. <a href="https://wiki.dfrobot.com/Gravity__Analog_pH_Sensor_Kit__Industrial__SKU_SEN0169-V2">wiki</a></li>
-    <li><strong>DFR0300-H EC</strong> — K=10, 10–100 mS/cm, 0–3.2 V. Library <code>DFRobot_EC10</code>. DFRobot: lab-grade probe, not for long-term immersion. <a href="https://wiki.dfrobot.com/Gravity__Analog_Electrical_Conductivity_Sensor___Meter_V2__K%3D10__SKU_DFR0300-H">wiki</a></li>
-    <li><strong>SEN0237-A DO</strong> — galvanic, 0–3.0 V analog. Fill solution is 0.5 mol/L NaOH. <a href="https://wiki.dfrobot.com/Gravity__Analog_Dissolved_Oxygen_Sensor_SKU_SEN0237">wiki</a></li>
+    <li><strong>DFR0300-H EC</strong> — K=10, 10–100 mS/cm, 0–3.2 V. Library <code>DFRobot_EC10</code>. <strong>DFRobot: lab-grade probe, not for long-term immersion.</strong> Do not leave it in the water for months; rinse and recap between deployments. <a href="https://wiki.dfrobot.com/Gravity__Analog_Electrical_Conductivity_Sensor___Meter_V2__K%3D10__SKU_DFR0300-H">wiki</a></li>
+    <li><strong>SEN0237-A DO</strong> — galvanic, 0–3.0 V analog. Fill solution is 0.5 mol/L NaOH. Two-point in firmware NVS (zero solution + air-saturated water); uncalibrated POSTs send <code>null</code>, not a fake 0–20 mg/L scale. <a href="https://wiki.dfrobot.com/Gravity__Analog_Dissolved_Oxygen_Sensor_SKU_SEN0237">wiki</a></li>
     <li><strong>KIT0021 DS18B20</strong> — waterproof digital temperature. <a href="https://wiki.dfrobot.com/Waterproof_DS18B20_Digital_Temperature_Sensor__SKU_DFR0198_">wiki</a></li>
     <li><strong>MS5803-14BA</strong> — 14 bar absolute pressure, I²C. <a href="https://cdn.sparkfun.com/datasheets/Sensors/Weather/MS5803-14BA.pdf">datasheet</a></li>
   </ul>
@@ -23,7 +23,9 @@ import Base from "../../layouts/Base.astro";
   <ul>
     <li>Practical salinity PSS-78 at p = 0 dbar: Fofonoff &amp; Millard, UNESCO technical papers in marine science 44 (1983). Check: 53.088 mS/cm at 25 °C → S = 35.</li>
     <li>DO saturation: Benson &amp; Krause (1984) as used by USGS TWRI Book 9, Chapter A6. Check: ~9.09 mg/L at 20 °C, S = 0, 1 atm.</li>
+    <li>DO mg/L: linear two-point from SEN0237 millivolts (zero solution, air-sat water) × saturation mg/L. Uncalibrated → JSON <code>null</code>.</li>
     <li>Depth: (p_mbar − p_atm_mbar) × 0.01 ≈ metres (1 dbar ≈ 1 m of water).</li>
+    <li>Battery volts: LilyGO V1.2+ 100 kΩ / 100 kΩ on GPIO 35, <code>analogReadMilliVolts() × 2</code> (<a href="https://github.com/Xinyuan-LilyGO/LilyGo-Modem-Series/blob/main/examples/Arduino_Devices_Testing/ReadBattery/ReadBattery.ino">ReadBattery.ino</a>). V1.1 has no divider.</li>
   </ul>
 
   <h2>Hypoxia on the dashboard</h2>

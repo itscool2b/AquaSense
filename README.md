@@ -8,7 +8,13 @@
 
 Open-source hardware kit. Order the parts, build the hull, flash the board, point it at **your** ingest URL. This repository is the kit. **We host no servers, no database, and no live fleet.**
 
-GitHub Pages is documentation plus a [dashboard of fixture JSON](https://itscool2b.github.io/AquaSense/dashboard/) labeled **simulated**. Live numbers come from `docker compose up` on a machine you control. After the first push, set the repo’s Pages source to **GitHub Actions**.
+GitHub Pages is documentation plus a [dashboard of fixture JSON](https://itscool2b.github.io/AquaSense/dashboard/) labeled **simulated**. Live numbers come from `docker compose up` on a machine you control.
+
+**Turn the site on once** (the Actions token cannot do this for you):
+
+1. Repo **Settings → Pages**.
+2. Either **Deploy from a branch** → `gh-pages` / `/ (root)`, or **GitHub Actions**.
+3. CI already pushes `site/dist` to the `gh-pages` branch on every `main` push. The Actions Pages deploy is best-effort if that source is not enabled yet.
 
 ## What it sends
 
@@ -50,9 +56,12 @@ SD card `config.json` (from [`firmware/data/config.example.json`](firmware/data/
   "device_id": "buoy-01",
   "token": "change-me",
   "apn": "iot.1nce.net",
-  "sample_period_s": 900
+  "sample_period_s": 900,
+  "stay_awake": false
 }
 ```
+
+Serial waits 12 s after boot for `cal` (or set `stay_awake`). Dissolved oxygen is a two-point in NVS (`doair` / `dozero`); uncalibrated POSTs send `do_mgl: null`.
 
 ## Your website
 

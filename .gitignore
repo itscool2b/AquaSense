@@ -19,3 +19,6 @@ selfhost/data/
 *.log
 .netlify/
 firmware/.pio/
+hardware/kicad/*-backups/
+hardware/kicad/fp-info-cache
+hardware/kicad/*.kicad_prl

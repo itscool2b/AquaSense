@@ -62,3 +62,23 @@ double aquasense_depth_m(double pressure_mbar, double p_atm_mbar) {
   }
   return dbar;
 }
+
+double aquasense_do_mgl_from_mv(double mv, double mv_zero, double mv_air,
+                                double sat_mgl) {
+  if (!std::isfinite(mv) || !std::isfinite(mv_zero) || !std::isfinite(mv_air) ||
+      !std::isfinite(sat_mgl)) {
+    return NAN;
+  }
+  if (!(sat_mgl > 0.0)) {
+    return NAN;
+  }
+  /* Galvanic DO: air-sat millivolts must sit clearly above the zero point. */
+  if (!(mv_air > mv_zero + 10.0)) {
+    return NAN;
+  }
+  const double do_mgl = (mv - mv_zero) / (mv_air - mv_zero) * sat_mgl;
+  if (do_mgl < 0.0) {
+    return 0.0;
+  }
+  return do_mgl;
+}

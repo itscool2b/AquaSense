@@ -41,6 +41,18 @@ int main() {
   expect_true("salinity_rejects_zero", std::isnan(aquasense_salinity_psu(0.0)));
   expect_true("depth_rejects_bad_atm", std::isnan(aquasense_depth_m(1013.25, 0.0)));
 
+  /* SEN0237 two-point: zero solution → 0, air-sat → sat, midpoint → sat/2. */
+  expect_near("do_mv_zero", aquasense_do_mgl_from_mv(40.0, 40.0, 1600.0, 9.09), 0.0,
+              0.01);
+  expect_near("do_mv_air", aquasense_do_mgl_from_mv(1600.0, 40.0, 1600.0, 9.09), 9.09,
+              0.01);
+  expect_near("do_mv_mid", aquasense_do_mgl_from_mv(820.0, 40.0, 1600.0, 9.09), 4.545,
+              0.05);
+  expect_true("do_mv_uncalibrated",
+              std::isnan(aquasense_do_mgl_from_mv(800.0, NAN, NAN, 9.09)));
+  expect_true("do_mv_bad_span",
+              std::isnan(aquasense_do_mgl_from_mv(800.0, 1600.0, 40.0, 9.09)));
+
   if (g_fails) {
     std::printf("%d test(s) failed\n", g_fails);
     return 1;

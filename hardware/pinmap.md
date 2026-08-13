@@ -17,7 +17,7 @@ Do **not** put jumper wires on header GPIO 4 (modem PWRKEY) or GPIO 5 (modem RST
 | Modem DTR | 25 | Sleep control |
 | Modem RING | 33 | Input only |
 | SD SCK / MISO / MOSI / CS | 14 / 2 / 15 / 13 | Remove SD card before USB upload (IO2) |
-| Battery ADC | 35 | On-board divider |
+| Battery ADC | 35 | V1.2+: 100 kΩ / 100 kΩ, `analogReadMilliVolts() × 2` ([LilyGO ReadBattery.ino](https://github.com/Xinyuan-LilyGO/LilyGo-Modem-Series/blob/main/examples/Arduino_Devices_Testing/ReadBattery/ReadBattery.ino)). V1.1 has **no** divider — do not use ×2. |
 | Solar ADC | 36 | V1.4+ |
 | GNSS TX / RX (GPS SKU only) | 21 / 22 | L76K module |
 | GNSS PPS / Wake | 23 / 19 | GPS SKU only |
@@ -30,7 +30,7 @@ Do **not** put jumper wires on header GPIO 4 (modem PWRKEY) or GPIO 5 (modem RST
 | Analog transmitter 3.3 V | 3V3 | Shared rail. Transmitters stay powered (no MOSFET in the default build). |
 | Analog / DS18B20 GND | GND | Common ground |
 
-ESP32 analog math is 12-bit. Use `analogReadMilliVolts()` (Arduino-ESP32), not Uno `analogRead()/1024.0*5000`.
+ESP32 analog math is 12-bit. Use `analogReadMilliVolts()` (Arduino-ESP32), not Uno `analogRead()/1024.0*5000`. Firmware sets `ADC_11db` attenuation (0–3.3 V), same as the LilyGO battery example.
 
 DFRobot Gravity analog PH2.0 convention (SEN0169-V2 wiki pinout): **−** GND, **+** VCC, **A** analog. On the cable that is black / red / blue. Those three land on the screw-terminal breakout; only the signal wire is unique per GPIO.
 

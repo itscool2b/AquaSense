@@ -11,13 +11,15 @@ import Base from "../../layouts/Base.astro";
   "token": "change-me",
   "apn": "iot.1nce.net",
   "sample_period_s": 900,
-  "p_atm_mbar": 1013.25
+  "p_atm_mbar": 1013.25,
+  "stay_awake": false
 }`}</code></pre>
   <ul>
     <li><code>ingest_url</code> — your public HTTPS ingest, not localhost, not an AquaSense cloud (there isn’t one).</li>
     <li><code>token</code> — same string as <code>INGEST_TOKEN</code> in <code>selfhost/.env</code>.</li>
     <li><code>apn</code> — 1NCE default is <code>iot.1nce.net</code>. Other SIMs: use the carrier APN.</li>
     <li><code>sample_period_s</code> — 900 is a 15-minute FDEP-style cadence.</li>
+    <li><code>stay_awake</code> — <code>true</code> skips the 12 s window and stays in serial calibration mode (desk). Leave <code>false</code> on the water.</li>
   </ul>
   <p class="muted">Insert the SIM before first battery power. Eject the SD card before the next USB flash.</p>
   <div class="checkpoint">
