@@ -1,0 +1,8 @@
+{
+  "ingest_url": "http://192.168.1.10:8080/api/v1/ingest",
+  "device_id": "buoy-01",
+  "token": "change-me",
+  "apn": "iot.1nce.net",
+  "sample_period_s": 900,
+  "p_atm_mbar": 1013.25
+}
