@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 640" role="img" aria-labelledby="title desc">
+  <title id="title">AquaSense Gravity wiring — T-A7670G with GPS</title>
+  <desc id="desc">Color-coded wiring from DFRobot Gravity transmitters and probes to LilyGO T-A7670G header pins. GPIO numbers from LilyGO A7670 ESP32 README.</desc>
+  <rect width="920" height="640" fill="#07151C"/>
+  <text x="40" y="42" fill="#E6D5B8" font-family="Georgia, serif" font-size="22">AquaSense wiring</text>
+  <text x="40" y="64" fill="#8BA8A6" font-family="ui-sans-serif, system-ui" font-size="12">LilyGO T-A7670G R2 with GPS · Gravity cables · no custom PCB</text>
+
+  <rect x="560" y="90" width="320" height="430" rx="10" fill="#0C1F28" stroke="#1FA6A0" stroke-width="1.5"/>
+  <text x="580" y="118" fill="#F4F1EA" font-family="ui-sans-serif, system-ui" font-size="14">T-A7670G header</text>
+  <text x="580" y="138" fill="#8BA8A6" font-family="ui-sans-serif, system-ui" font-size="11">Do not jumper GPIO 4 or 5</text>
+
+  <g font-family="ui-monospace, monospace" font-size="12" fill="#F4F1EA">
+    <text x="580" y="175">3V3  analog VCC (shared)</text>
+    <text x="580" y="200">GND  analog GND</text>
+    <text x="580" y="240" fill="#1FA6A0">GPIO 32  pH analog</text>
+    <text x="580" y="280" fill="#E6D5B8">GPIO 34  EC analog</text>
+    <text x="580" y="320" fill="#C4452D">GPIO 39  DO analog</text>
+    <text x="580" y="360" fill="#F4F1EA">GPIO 18  DS18B20 data</text>
+    <text x="580" y="400" fill="#7EB6D9">GPIO 16  MS5803 SDA</text>
+    <text x="580" y="440" fill="#7EB6D9">GPIO 17  MS5803 SCL</text>
+    <text x="580" y="480" fill="#8BA8A6">GPIO 12  already HIGH in firmware</text>
+  </g>
+
+  <g font-family="ui-sans-serif, system-ui" font-size="13">
+    <rect x="40" y="160" width="220" height="56" rx="8" fill="#0C1F28" stroke="#1FA6A0"/>
+    <text x="54" y="184" fill="#1FA6A0">SEN0169-V2 pH</text>
+    <text x="54" y="202" fill="#8BA8A6" font-size="11">A ? 32 · + ? 3V3 · ? ? GND</text>
+    <line x1="260" y1="188" x2="560" y2="236" stroke="#1FA6A0" stroke-width="2"/>
+
+    <rect x="40" y="230" width="220" height="56" rx="8" fill="#0C1F28" stroke="#E6D5B8"/>
+    <text x="54" y="254" fill="#E6D5B8">DFR0300-H EC K=10</text>
+    <text x="54" y="272" fill="#8BA8A6" font-size="11">A ? 34 · + ? 3V3 · ? ? GND</text>
+    <line x1="260" y1="258" x2="560" y2="276" stroke="#E6D5B8" stroke-width="2"/>
+
+    <rect x="40" y="300" width="220" height="56" rx="8" fill="#0C1F28" stroke="#C4452D"/>
+    <text x="54" y="324" fill="#C4452D">SEN0237-A DO</text>
+    <text x="54" y="342" fill="#8BA8A6" font-size="11">A ? 39 · + ? 3V3 · ? ? GND</text>
+    <line x1="260" y1="328" x2="560" y2="316" stroke="#C4452D" stroke-width="2"/>
+
+    <rect x="40" y="370" width="220" height="56" rx="8" fill="#0C1F28" stroke="#F4F1EA"/>
+    <text x="54" y="394" fill="#F4F1EA">KIT0021 DS18B20</text>
+    <text x="54" y="412" fill="#8BA8A6" font-size="11">DATA ? 18 · VCC 3V3 · GND</text>
+    <line x1="260" y1="398" x2="560" y2="356" stroke="#F4F1EA" stroke-width="2"/>
+
+    <rect x="40" y="440" width="220" height="56" rx="8" fill="#0C1F28" stroke="#7EB6D9"/>
+    <text x="54" y="464" fill="#7EB6D9">MS5803-14BA</text>
+    <text x="54" y="482" fill="#8BA8A6" font-size="11">SDA 16 · SCL 17 · 3V3 · GND</text>
+    <line x1="260" y1="468" x2="560" y2="396" stroke="#7EB6D9" stroke-width="2"/>
+  </g>
+
+  <text x="40" y="540" fill="#8BA8A6" font-family="ui-sans-serif, system-ui" font-size="11">GPS SKU: GPIO 21/22 are GNSS UART — not I2C. Source: LilyGO A7670 ESP32 README.</text>
+  <text x="40" y="558" fill="#8BA8A6" font-family="ui-sans-serif, system-ui" font-size="11">Remove the microSD card before USB upload (SD uses GPIO 2).</text>
+  <text x="40" y="590" fill="#E6D5B8" font-family="ui-sans-serif, system-ui" font-size="12">Same colors in the build steps. Land Gravity PH2.0 cables on the screw-terminal breakout.</text>
+</svg>
