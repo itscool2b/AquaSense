@@ -1,0 +1,33 @@
+---
+import Base from "../../layouts/Base.astro";
+---
+<Base title="7. Build the hull — AquaSense">
+  <p class="kicker">Step 7 of 9</p>
+  <h1>Build the hull</h1>
+  <p class="lede">4″ Schedule 40 PVC square float (SECOORA Basic Observation Buoy geometry), Pelican deck box, 10 W panel, sensor cage, mooring eye. Yellow or white only — not a channel marker.</p>
+  <img src={`${import.meta.env.BASE_URL}images/exploded.svg`} alt="Exploded buoy: solar, antennas, IP67 box, PVC float, sensor cage, mooring" style="margin:1.5rem 0;border-radius:12px;border:1px solid var(--line)" />
+  <img src={`${import.meta.env.BASE_URL}images/buoy-isometric.png`} alt="Isometric of the finished PVC solar buoy" style="margin:1.5rem 0;border-radius:12px;border:1px solid var(--line)" />
+
+  <h2>Float</h2>
+  <p>
+    Follow the <a href="https://secoora.org/wp-content/uploads/sites/default/files/webfm/about/classroom/documents/BOBBuildManual030410.pdf">SECOORA BOB build manual</a>
+    for the square: eight ~15″ cuts from one 10 ft stick of 4″ Sch40, four 90° elbows, primer + slow-set PVC cement. Vent when gluing. Adult with the saw.
+  </p>
+
+  <h2>Deck</h2>
+  <p>Bolt or strap the Pelican 1120 to the PVC so the lid opens above water. Glands on the bottom face only. Optional PETG tray: <code>hardware/scad/tray.scad</code> — foam and zip ties also work.</p>
+
+  <h2>Solar</h2>
+  <p>Voltaic P110 (Adafruit 5369) on the lid. LilyGO solar jack is 5–6 V. This panel peaks near 5.71 V with Voc 6.94 V — closest 10 W we found with a buy link, not a perfect match. Never 12 V. The board cannot run from solar with no battery.</p>
+
+  <h2>Cage and mooring</h2>
+  <p>Keep probes in the wet well / cage below the float, not dragging on the bottom. Mooring eye on the lower cross. Reflective tape. Paint yellow or white if you paint at all.</p>
+
+  <div class="checkpoint">
+    <strong>Checkpoint.</strong> The box is closed, glands are snug, solar is on the lid, probes hang in the cage, and the hull is yellow/white — not red/green.
+  </div>
+  <div class="pager">
+    <a href={`${import.meta.env.BASE_URL}build/wire/`}>← Wire</a>
+    <a href={`${import.meta.env.BASE_URL}build/bucket/`}>Next: bucket test →</a>
+  </div>
+</Base>

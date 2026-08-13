@@ -1,0 +1,33 @@
+---
+import Base from "../../layouts/Base.astro";
+---
+<Base title="6. Wire the box — AquaSense">
+  <p class="kicker">Step 6 of 9</p>
+  <h1>Wire the box</h1>
+  <p class="lede">Gravity PH2.0 cables land on the screw-terminal breakout. Colors in this drawing are the colors in the steps. No custom PCB. No soldering required for the default path (optional on glands).</p>
+  <img src={`${import.meta.env.BASE_URL}images/wiring.svg`} alt="Color-coded Gravity wiring to T-A7670G GPIO 32, 34, 39, 18, 16, 17" style="margin:1.5rem 0;border-radius:12px;border:1px solid var(--line)" />
+  <table>
+    <thead><tr><th>Probe</th><th>Signal</th><th>GPIO</th><th>Color on drawing</th></tr></thead>
+    <tbody>
+      <tr><td>SEN0169-V2 pH</td><td>analog</td><td>32</td><td style="color:#1FA6A0">seagrass</td></tr>
+      <tr><td>DFR0300-H EC</td><td>analog</td><td>34</td><td style="color:#E6D5B8">sand</td></tr>
+      <tr><td>SEN0237-A DO</td><td>analog</td><td>39</td><td style="color:#C4452D">rust</td></tr>
+      <tr><td>KIT0021 DS18B20</td><td>1-Wire</td><td>18</td><td>foam</td></tr>
+      <tr><td>MS5803-14BA</td><td>SDA / SCL</td><td>16 / 17</td><td style="color:#7EB6D9">sky</td></tr>
+    </tbody>
+  </table>
+  <ul>
+    <li>Shared 3V3 and GND for analog transmitters. They stay powered (no MOSFET in this kit).</li>
+    <li>GPS SKU: GPIO 21/22 are GNSS UART. Do not use them as I2C.</li>
+    <li>Do not jumper GPIO 4 or 5.</li>
+    <li>PG glands through the <em>bottom</em> of the Pelican. Silicone on threads. Strain-relief the cables inside.</li>
+  </ul>
+  <p class="muted">Pin numbers: <a href="https://github.com/Xinyuan-LilyGO/LilyGo-Modem-Series/blob/main/docs/en/esp32/a7670-esp32/README.MD">LilyGO A7670 ESP32 README</a>. Same table in <code>hardware/pinmap.md</code> and <code>firmware/include/pins.h</code>.</p>
+  <div class="checkpoint">
+    <strong>Checkpoint.</strong> A photo of the inside of the box matches the SVG: pH on 32, EC on 34, DO on 39, temp on 18, pressure on 16/17. No wires on 4 or 5.
+  </div>
+  <div class="pager">
+    <a href={`${import.meta.env.BASE_URL}build/calibrate/`}>← Calibrate</a>
+    <a href={`${import.meta.env.BASE_URL}build/hull/`}>Next: build the hull →</a>
+  </div>
+</Base>

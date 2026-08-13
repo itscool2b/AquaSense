@@ -1,0 +1,58 @@
+---
+import Base from "../layouts/Base.astro";
+---
+<Base title="Dashboard (simulated) — AquaSense">
+  <p class="kicker sim">Simulated · fixture JSON · not a live fleet</p>
+  <h1>Dashboard</h1>
+  <p class="lede">A solar buoy that sits on the water, measures a few stats, uses cellular internet to send them to a website you host.</p>
+  <div class="callout">
+    These gauges are <strong>simulated</strong>. They are not a live fleet. For real POSTs, run the self-host stack and point the buoy at your URL.
+  </div>
+  <p><a class="btn" href={`${import.meta.env.BASE_URL}build/host/`}>Run your own ingest</a></p>
+  <div id="app" style="margin-top:2rem"></div>
+</Base>
+
+<script>
+  const fixture = {
+    simulated: true,
+    device_id: "buoy-demo",
+    ts: "2026-08-12T18:00:00Z",
+    lat: 27.331,
+    lon: -82.546,
+    temp_c: 28.4,
+    ph: 7.82,
+    spcond_ms_cm: 42.1,
+    sal_psu: 27.4,
+    do_mgl: 5.6,
+    do_pct: 86,
+    depth_m: 1.4,
+    batt_v: 3.91,
+    rssi: -89,
+    fw: "0.1.0-sim",
+  };
+
+  const gauges = [
+    ["Temperature", fixture.temp_c, "°C"],
+    ["pH", fixture.ph, ""],
+    ["Salinity", fixture.sal_psu, "PSU"],
+    ["DO", fixture.do_mgl, "mg/L"],
+    ["Depth", fixture.depth_m, "m"],
+    ["Battery", fixture.batt_v, "V"],
+  ];
+
+  const el = document.getElementById("app");
+  if (el) {
+    el.innerHTML = `
+      <p class="muted">Last fixture sample · ${fixture.ts} · ${fixture.lat}, ${fixture.lon} · LTE ${fixture.rssi} dBm</p>
+      <div class="gauges">
+        ${gauges
+          .map(
+            ([n, v, u]) =>
+              `<div class="gauge"><div class="v">${v}<small> ${u}</small></div><div class="n">${n}</div></div>`
+          )
+          .join("")}
+      </div>
+      <p class="muted" style="margin-top:1.5rem">Hypoxia rule of thumb: DO below 2 mg/L (ecological, not an FDEP lab limit).</p>
+    `;
+  }
+</script>

@@ -1,0 +1,30 @@
+---
+import Base from "../../layouts/Base.astro";
+---
+<Base title="4. Config the SD card — AquaSense">
+  <p class="kicker">Step 4 of 9</p>
+  <h1>Config the SD card</h1>
+  <p class="lede">FAT32 microSD. Copy <code>firmware/data/config.example.json</code> to the card as <code>config.json</code>. Real tokens never go in git.</p>
+  <pre><code>{`{
+  "ingest_url": "https://YOUR-HOST/api/v1/ingest",
+  "device_id": "buoy-01",
+  "token": "change-me",
+  "apn": "iot.1nce.net",
+  "sample_period_s": 900,
+  "p_atm_mbar": 1013.25
+}`}</code></pre>
+  <ul>
+    <li><code>ingest_url</code> — your public HTTPS ingest, not localhost, not an AquaSense cloud (there isn’t one).</li>
+    <li><code>token</code> — same string as <code>INGEST_TOKEN</code> in <code>selfhost/.env</code>.</li>
+    <li><code>apn</code> — 1NCE default is <code>iot.1nce.net</code>. Other SIMs: use the carrier APN.</li>
+    <li><code>sample_period_s</code> — 900 is a 15-minute FDEP-style cadence.</li>
+  </ul>
+  <p class="muted">Insert the SIM before first battery power. Eject the SD card before the next USB flash.</p>
+  <div class="checkpoint">
+    <strong>Checkpoint.</strong> You can open <code>config.json</code> on a computer and the URL is yours. After boot, serial says it loaded the file (or warns if it did not).
+  </div>
+  <div class="pager">
+    <a href={`${import.meta.env.BASE_URL}build/flash/`}>← Flash</a>
+    <a href={`${import.meta.env.BASE_URL}build/calibrate/`}>Next: calibrate →</a>
+  </div>
+</Base>

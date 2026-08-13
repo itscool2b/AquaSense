@@ -1,0 +1,23 @@
+---
+import Base from "../../layouts/Base.astro";
+---
+<Base title="8. Bucket test — AquaSense">
+  <p class="kicker">Step 8 of 9</p>
+  <h1>Bucket test</h1>
+  <p class="lede">Battery + SIM + a bucket of tap water. One real POST to <em>your</em> ingest — not GitHub Pages, not a central AquaSense server.</p>
+  <ol>
+    <li>Your compose stack is reachable at the <code>https://</code> URL in <code>config.json</code> (VPS or tunnel). Confirm with <code>python3 scripts/simulate-buoy.py</code> pointed at that URL.</li>
+    <li>SIM seated. Battery in. SD card with config. Solar optional for this test.</li>
+    <li>Probes in the bucket — not dry. Keep the electronics box out of the water.</li>
+    <li>Watch serial: <code>AquaSense boot</code>, then a JSON line, then <code>HTTPS POST status 2xx</code>.</li>
+    <li>Refresh your dashboard. Last-seen should be seconds ago.</li>
+  </ol>
+  <p class="muted">If LTE fails, the firmware still appends CSV on the SD card and retries next wake. That is success for logging, not for the website.</p>
+  <div class="checkpoint">
+    <strong>Checkpoint.</strong> Your self-hosted dashboard shows a row from <code>device_id</code> in config, with temperature near room water and battery voltage in a 3.5–4.2 V neighborhood.
+  </div>
+  <div class="pager">
+    <a href={`${import.meta.env.BASE_URL}build/hull/`}>← Hull</a>
+    <a href={`${import.meta.env.BASE_URL}build/water/`}>Next: put it in the water →</a>
+  </div>
+</Base>

@@ -1,0 +1,35 @@
+---
+import Base from "../../layouts/Base.astro";
+---
+<Base title="5. Calibrate on the desk — AquaSense">
+  <p class="kicker">Step 5 of 9</p>
+  <h1>Calibrate on the desk</h1>
+  <p class="lede">Do this before the hull. Cups, buffers, and an adult in the room for the DO fill.</p>
+
+  <div class="callout">
+    <strong>NaOH first.</strong> The SEN0237-A filling solution is 0.5 mol/L sodium hydroxide.
+    Gloves and goggles. Do not taste, do not leave open around kids. Follow the
+    <a href="https://wiki.dfrobot.com/Gravity__Analog_Dissolved_Oxygen_Sensor_SKU_SEN0237">DFRobot DO wiki</a>
+    for membrane and fill. If you skip this, skip the probe — do not guess a fill.
+  </div>
+
+  <h2>pH (SEN0169-V2)</h2>
+  <p>Two-point with 4.01 and 7.01 (DFRobot library). Optional 10.01 check. Rinse with distilled water between cups. The industrial probe is the one in this kit — not SEN0161.</p>
+
+  <h2>EC (DFR0300-H, K=10)</h2>
+  <p>Use the 12.88 mS/cm standard that ships with the meter (and/or a fresh bottle). Library is <code>DFRobot_EC10</code>, not <code>DFRobot_EC</code>. DFRobot: this is a lab-grade probe — do not leave it immersed for months.</p>
+
+  <h2>DO (SEN0237-A)</h2>
+  <p>Air-saturation calibration after the membrane is filled and has sat as the wiki says. Firmware maps 0–3000 mV → 0–20 mg/L until you store a two-point in NVS from the DFRobot procedure.</p>
+
+  <h2>Temperature</h2>
+  <p>DS18B20 is digital. A kitchen thermometer in the same cup is a sanity check, not a calibration.</p>
+
+  <div class="checkpoint">
+    <strong>Checkpoint.</strong> pH 7 cup reads near 7, EC standard reads near 12.88 mS/cm, DO in air-saturated water is in a plausible mg/L range for the room temperature. You did not skip NaOH PPE.
+  </div>
+  <div class="pager">
+    <a href={`${import.meta.env.BASE_URL}build/config/`}>← Config</a>
+    <a href={`${import.meta.env.BASE_URL}build/wire/`}>Next: wire the box →</a>
+  </div>
+</Base>

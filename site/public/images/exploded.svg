@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 720" role="img" aria-labelledby="t">
+  <title id="t">Exploded AquaSense buoy</title>
+  <rect width="800" height="720" fill="#07151C"/>
+  <text x="40" y="40" fill="#E6D5B8" font-family="Georgia, serif" font-size="22">Exploded buoy</text>
+  <text x="40" y="62" fill="#8BA8A6" font-family="ui-sans-serif, system-ui" font-size="12">SECOORA BOB-style 4 in PVC float · IP67 deck box · sensor cage</text>
+
+  <g font-family="ui-sans-serif, system-ui" font-size="12">
+    <rect x="280" y="80" width="240" height="28" rx="4" fill="#1FA6A0"/>
+    <text x="300" y="99" fill="#07151C">10 W 6 V solar (P110)</text>
+
+    <rect x="300" y="130" width="200" height="18" rx="3" fill="#8BA8A6"/>
+    <text x="540" y="144" fill="#E6D5B8">LTE + GPS antennas</text>
+
+    <rect x="250" y="170" width="300" height="90" rx="8" fill="#0C1F28" stroke="#E6D5B8"/>
+    <text x="270" y="205" fill="#F4F1EA">Pelican 1120 / IP67 box</text>
+    <text x="270" y="225" fill="#8BA8A6">T-A7670G · 18650 · microSD</text>
+    <text x="270" y="243" fill="#8BA8A6">screw terminals · glands on bottom</text>
+
+    <rect x="180" y="300" width="440" height="70" rx="8" fill="#F4F1EA" opacity="0.9"/>
+    <text x="200" y="340" fill="#07151C">4 in Sch40 PVC square float (BOB)</text>
+
+    <rect x="330" y="400" width="140" height="110" rx="6" fill="#0C1F28" stroke="#1FA6A0"/>
+    <text x="348" y="430" fill="#1FA6A0">sensor cage</text>
+    <text x="348" y="450" fill="#8BA8A6" font-size="11">pH · EC · DO</text>
+    <text x="348" y="466" fill="#8BA8A6" font-size="11">DS18B20 · MS5803</text>
+
+    <line x1="400" y1="510" x2="400" y2="580" stroke="#C4452D" stroke-width="3"/>
+    <text x="420" y="560" fill="#C4452D">mooring eye</text>
+  </g>
+  <text x="40" y="680" fill="#8BA8A6" font-family="ui-sans-serif, system-ui" font-size="11">Hull pattern: SECOORA Basic Observation Buoy (Levin). Yellow/white only  not a channel marker.</text>
+</svg>

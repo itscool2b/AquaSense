@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AquaSense — your buoy</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <p class="kicker">Self-hosted · not GitHub Pages</p>
+      <h1>AquaSense</h1>
+      <p class="lede">
+        A solar buoy that sits on the water, measures a few stats, uses cellular
+        internet to send them to a website you host.
+      </p>
+      <p id="status" class="muted">Waiting for the first POST…</p>
+      <div id="gauges" class="gauges"></div>
+      <p class="muted" style="margin-top:1.5rem">
+        Hypoxia rule of thumb: DO below 2 mg/L (ecological, not an FDEP lab limit).
+      </p>
+    </div>
+    <script src="/static/dashboard.js"></script>
+  </body>
+</html>

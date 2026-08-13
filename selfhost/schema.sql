@@ -1,0 +1,19 @@
+CREATE TABLE IF NOT EXISTS readings (
+  id BIGSERIAL PRIMARY KEY,
+  device_id TEXT NOT NULL,
+  ts TIMESTAMPTZ NOT NULL DEFAULT now(),
+  lat DOUBLE PRECISION,
+  lon DOUBLE PRECISION,
+  temp_c DOUBLE PRECISION,
+  ph DOUBLE PRECISION,
+  spcond_ms_cm DOUBLE PRECISION,
+  sal_psu DOUBLE PRECISION,
+  do_mgl DOUBLE PRECISION,
+  do_pct DOUBLE PRECISION,
+  depth_m DOUBLE PRECISION,
+  batt_v DOUBLE PRECISION,
+  rssi INTEGER,
+  fw TEXT
+);
+
+CREATE INDEX IF NOT EXISTS readings_device_ts ON readings (device_id, ts DESC);

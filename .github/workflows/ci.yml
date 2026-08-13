@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Conversion tests
+        run: make -C firmware test
+
+  site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - name: Build GitHub Pages site
+        working-directory: site
+        run: npm ci && npm run build
+
+  firmware:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install PlatformIO
+        run: pip install platformio
+      - name: Compile T-A7670G firmware
+        working-directory: firmware
+        run: pio run -e lilygo-t-a7670g
+
+  selfhost:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compose up
+        working-directory: selfhost
+        run: docker compose up -d --build
+      - name: Wait for health and simulate a buoy
+        run: |
+          for i in $(seq 1 40); do
+            if curl -sf http://127.0.0.1:8080/api/v1/health; then
+              break
+            fi
+            sleep 2
+          done
+          python3 scripts/simulate-buoy.py
+          curl -sf http://127.0.0.1:8080/api/v1/latest | grep buoy-sim

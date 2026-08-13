@@ -1,0 +1,78 @@
+---
+import Base from "../layouts/Base.astro";
+const idea =
+  "A solar buoy that sits on the water, measures a few stats, uses cellular internet to send them to a website you host.";
+---
+
+<Base title="AquaSense — one buoy, one website">
+  <section class="hero">
+    <div>
+      <p class="kicker">Open hardware · Florida water · you host the site</p>
+      <h1>AquaSense</h1>
+      <p class="lede">{idea}</p>
+      <div class="cta-row">
+        <a class="btn" href={`${import.meta.env.BASE_URL}build/`}>Build the kit</a>
+        <a class="btn ghost" href={`${import.meta.env.BASE_URL}build/bom/`}>Bill of materials</a>
+      </div>
+      <p class="muted" style="margin-top:1.25rem;max-width:36rem">
+        We do not run a cloud. GitHub Pages is documentation and a <em>simulated</em> dashboard.
+        Live numbers come from <code>docker compose up</code> on a machine you control.
+      </p>
+    </div>
+    <div>
+      <img src={`${import.meta.env.BASE_URL}images/hero-buoy.png`} alt="Photoreal render of the AquaSense PVC solar buoy on Florida water at dusk" />
+    </div>
+  </section>
+
+  <section>
+    <h2>What it measures</h2>
+    <p class="muted">One HTTPS POST every 15 minutes. No turbidity — the cheap analog probe is not waterproof and is not NTU.</p>
+    <div class="grid-3" style="margin-top:1.5rem">
+      <div class="card"><h3>Temperature</h3><p>Waterproof DS18B20 (DFRobot KIT0021). Digital 1-Wire on GPIO 18.</p></div>
+      <div class="card"><h3>pH</h3><p>SEN0169-V2 industrial analog transmitter. 0–3.0 V into GPIO 32. Two-point buffers on the desk.</p></div>
+      <div class="card"><h3>Conductivity → salinity</h3><p>DFR0300-H K=10, 10–100 mS/cm. PSS-78 at atmospheric pressure (UNESCO 44 / Fofonoff &amp; Millard 1983).</p></div>
+      <div class="card"><h3>Dissolved oxygen</h3><p>SEN0237-A galvanic. mg/L from the transmitter; % saturation from Benson &amp; Krause 1984.</p></div>
+      <div class="card"><h3>Depth</h3><p>SparkFun MS5803-14BA. Gauge pressure × 0.01 ≈ metres of water.</p></div>
+      <div class="card"><h3>Where / power</h3><p>L76K GPS, LTE RSSI, battery millivolts. The board sleeps between wakes so a 10 W panel and a cell last overnight.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Your buoy, your website</h2>
+    <p class="muted">Wake every 15 minutes. CSV on the SD card if LTE fails. The ingest URL is yours.</p>
+    <img src={`${import.meta.env.BASE_URL}images/architecture.svg`} alt="Diagram: buoy HTTPS POST to your ingest, Postgres, dashboard" style="margin-top:1rem;border-radius:12px;border:1px solid var(--line)" />
+  </section>
+
+  <section>
+    <h2>The hull</h2>
+    <p class="muted">4″ Schedule 40 PVC square (SECOORA BOB geometry), Pelican deck box, 10 W panel, sensor cage, mooring eye. Gravity cables — no custom PCB.</p>
+    <img src={`${import.meta.env.BASE_URL}images/buoy-isometric.png`} alt="Isometric of the PVC square buoy with solar deck and sensor cage" style="margin-top:1rem;border-radius:12px;border:1px solid var(--line)" />
+  </section>
+
+  <section>
+    <h2>Cost, honestly</h2>
+    <p>
+      A YSI EXO2 sonde lists around <strong>$7,300–$8,450</strong> before sensors
+      (<a href="https://www.ysi.com/exo2">YSI EXO2</a>,
+      <a href="https://www.fondriest.com/ysi-exo2-multiparameter-sonde.htm">Fondriest</a>).
+      A NexSens-class data buoy is another few thousand.
+      This kit’s CSV sums to about <strong>$780</strong> of street prices — check the linked pages; they move.
+    </p>
+    <p class="muted">AquaSense has not been in a lake. Treat every number as a kit you calibrate, not a certified station.</p>
+  </section>
+
+  <section>
+    <h2>Nine steps</h2>
+    <ol class="steps">
+      <li><a href={`${import.meta.env.BASE_URL}build/bom/`}>Buy the list</a> — every row has a Buy button.</li>
+      <li><a href={`${import.meta.env.BASE_URL}build/host/`}>Stand up your website</a> — Docker, then the simulator.</li>
+      <li><a href={`${import.meta.env.BASE_URL}build/flash/`}>Flash the board</a> — USB-A to USB-C, PlatformIO.</li>
+      <li><a href={`${import.meta.env.BASE_URL}build/config/`}>Config the SD card</a> — your ingest URL and token.</li>
+      <li><a href={`${import.meta.env.BASE_URL}build/calibrate/`}>Calibrate on the desk</a> — buffers, NaOH safety first.</li>
+      <li><a href={`${import.meta.env.BASE_URL}build/wire/`}>Wire the box</a> — colors match the drawing.</li>
+      <li><a href={`${import.meta.env.BASE_URL}build/hull/`}>Build the hull</a> — PVC, glands, solar, cage.</li>
+      <li><a href={`${import.meta.env.BASE_URL}build/bucket/`}>Bucket test</a> — one real POST to localhost.</li>
+      <li><a href={`${import.meta.env.BASE_URL}build/water/`}>Put it in the water</a> — permits, mooring, last-seen.</li>
+    </ol>
+  </section>
+</Base>

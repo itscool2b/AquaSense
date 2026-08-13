@@ -1,0 +1,32 @@
+---
+import Base from "../../layouts/Base.astro";
+---
+<Base title="2. Stand up your website — AquaSense">
+  <p class="kicker">Step 2 of 9</p>
+  <h1>Stand up your website</h1>
+  <p class="lede">A solar buoy that sits on the water, measures a few stats, uses cellular internet to send them to a website you host. This step is the website. We do not run one.</p>
+
+  <p>Install Docker Desktop (or Docker Engine). From the repo:</p>
+  <pre><code>cd selfhost
+cp .env.example .env
+docker compose up --build</code></pre>
+  <p>Open <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>. Then, in another terminal:</p>
+  <pre><code>python3 scripts/simulate-buoy.py</code></pre>
+  <p>Refresh the dashboard. You should see gauges fill with a simulated reading. No hardware yet.</p>
+
+  <h2>The buoy cannot see localhost</h2>
+  <p>
+    The T-A7670G uses LTE. It will never reach <code>127.0.0.1</code> on your laptop.
+    The simulator is for you. For a real POST, put this same compose stack on a VPS
+    (or a tunnel in front of port 8080) and use an <code>https://</code> URL in
+    <code>config.json</code>. Optional: the same app on <em>your</em> Netlify or VPS — not ours.
+  </p>
+
+  <div class="checkpoint">
+    <strong>Checkpoint.</strong> Localhost dashboard shows a reading after the simulator. Token in <code>selfhost/.env</code> matches what you will put on the SD card.
+  </div>
+  <div class="pager">
+    <a href={`${import.meta.env.BASE_URL}build/bom/`}>← Buy</a>
+    <a href={`${import.meta.env.BASE_URL}build/flash/`}>Next: flash the board →</a>
+  </div>
+</Base>

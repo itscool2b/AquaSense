@@ -1,0 +1,22 @@
+:root {
+  --navy: #07151c;
+  --ink: #0c1f28;
+  --teal: #1fa6a0;
+  --sand: #e6d5b8;
+  --foam: #f4f1ea;
+  --rust: #c4452d;
+  --mute: #8ba8a6;
+  --line: rgba(230, 213, 184, 0.16);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--navy); color: var(--foam); font-family: ui-sans-serif, system-ui, sans-serif; }
+.wrap { width: min(960px, calc(100% - 40px)); margin: 0 auto; padding: 32px 0 64px; }
+h1 { font-family: Georgia, serif; color: var(--sand); font-weight: 500; }
+.kicker { color: var(--teal); letter-spacing: 0.16em; text-transform: uppercase; font-size: 0.72rem; }
+.lede { color: var(--mute); max-width: 40rem; }
+.muted { color: var(--mute); }
+.gauges { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 24px; }
+.gauge { background: var(--ink); border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
+.gauge .v { font-family: Georgia, serif; font-size: 2rem; color: var(--teal); }
+.gauge .n { color: var(--mute); margin-top: 6px; }
+@media (max-width: 720px) { .gauges { grid-template-columns: 1fr; } }

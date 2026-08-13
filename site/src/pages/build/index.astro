@@ -1,0 +1,19 @@
+---
+import Base from "../../layouts/Base.astro";
+---
+<Base title="Build — AquaSense">
+  <p class="kicker">High-school path · Gravity cables · no custom PCB</p>
+  <h1>Build the kit</h1>
+  <p class="lede">Numbered steps. Each page has a checkpoint. Tools: USB-A to USB-C cable, Phillips screwdriver, PVC cutter, silicone. Gloves and goggles for the DO fill (NaOH) — adult in the room.</p>
+  <ol class="steps">
+    <li><a href={`${import.meta.env.BASE_URL}build/bom/`}>Buy the list</a></li>
+    <li><a href={`${import.meta.env.BASE_URL}build/host/`}>Stand up your website</a></li>
+    <li><a href={`${import.meta.env.BASE_URL}build/flash/`}>Flash the board</a></li>
+    <li><a href={`${import.meta.env.BASE_URL}build/config/`}>Config the SD card</a></li>
+    <li><a href={`${import.meta.env.BASE_URL}build/calibrate/`}>Calibrate on the desk</a></li>
+    <li><a href={`${import.meta.env.BASE_URL}build/wire/`}>Wire the box</a></li>
+    <li><a href={`${import.meta.env.BASE_URL}build/hull/`}>Build the hull</a></li>
+    <li><a href={`${import.meta.env.BASE_URL}build/bucket/`}>Bucket test</a></li>
+    <li><a href={`${import.meta.env.BASE_URL}build/water/`}>Put it in the water</a></li>
+  </ol>
+</Base>

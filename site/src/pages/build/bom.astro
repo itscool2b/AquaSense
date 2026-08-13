@@ -1,0 +1,95 @@
+---
+import Base from "../../layouts/Base.astro";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+
+function parseCsv(text: string): string[][] {
+  const rows: string[][] = [];
+  let row: string[] = [];
+  let cell = "";
+  let inQuotes = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (inQuotes) {
+      if (c === '"' && text[i + 1] === '"') {
+        cell += '"';
+        i++;
+      } else if (c === '"') {
+        inQuotes = false;
+      } else {
+        cell += c;
+      }
+    } else if (c === '"') {
+      inQuotes = true;
+    } else if (c === ",") {
+      row.push(cell);
+      cell = "";
+    } else if (c === "\n") {
+      row.push(cell);
+      if (row.some((x) => x.length)) rows.push(row);
+      row = [];
+      cell = "";
+    } else if (c !== "\r") {
+      cell += c;
+    }
+  }
+  if (cell.length || row.length) {
+    row.push(cell);
+    rows.push(row);
+  }
+  return rows;
+}
+
+const csv = readFileSync(resolve(process.cwd(), "..", "bom", "bom.csv"), "utf8");
+const [header, ...body] = parseCsv(csv);
+const idx = Object.fromEntries(header.map((h, i) => [h, i]));
+const rows = body.filter((r) => r[idx.item]);
+const total = rows.reduce((sum, r) => {
+  const qty = Number(r[idx.qty] || 1);
+  const price = Number(r[idx.approx_usd] || 0);
+  return sum + qty * price;
+}, 0);
+---
+<Base title="1. Buy the list — AquaSense">
+  <p class="kicker">Step 1 of 9</p>
+  <h1>Buy the list</h1>
+  <p class="lede">One kit. Every row has a Buy button and a datasheet. Prices are street estimates from the linked pages on 2026-08-12 — the page wins if they disagree.</p>
+  <div class="callout">Do not buy the LilyGO “Without GPS” ASIN B0CLLNK4MX. The GPS board is B0CLLNMRX7. Turbidity is not in this kit.</div>
+  <p class="muted">Running total ≈ <strong>${total.toFixed(2)}</strong> USD before tax and shipping. Check the linked page.</p>
+  <div style="overflow-x:auto;margin-top:1.5rem">
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Qty</th>
+          <th>SKU</th>
+          <th>≈ USD</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr>
+            <td>
+              <strong>{r[idx.item]}</strong>
+              <div class="muted" style="font-size:0.85rem;margin-top:4px">{r[idx.notes]}</div>
+            </td>
+            <td>{r[idx.qty]}</td>
+            <td><code>{r[idx.sku]}</code></td>
+            <td>{Number(r[idx.approx_usd]).toFixed(2)}</td>
+            <td><a class="buy" href={r[idx.buy_url]} rel="noopener">Buy</a></td>
+            <td><a href={r[idx.docs_url]} rel="noopener">Datasheet</a></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <div class="checkpoint">
+    <strong>Checkpoint.</strong> You have a box of parts that matches this table, including the GPS variant of the T-A7670G and a USB-A to USB-C cable (not USB-C to USB-C).
+  </div>
+  <div class="pager">
+    <a href={`${import.meta.env.BASE_URL}build/`}>← Build overview</a>
+    <a href={`${import.meta.env.BASE_URL}build/host/`}>Next: stand up your website →</a>
+  </div>
+</Base>

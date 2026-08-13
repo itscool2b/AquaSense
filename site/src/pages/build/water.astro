@@ -1,0 +1,37 @@
+---
+import Base from "../../layouts/Base.astro";
+---
+<Base title="9. Put it in the water — AquaSense">
+  <p class="kicker">Step 9 of 9</p>
+  <h1>Put it in the water</h1>
+  <p class="lede">Permits before the mooring. This kit has not been in a lake. You are the operator.</p>
+
+  <h2>Permission</h2>
+  <p>
+    Florida: private water is between you and the landowner. Public water and preserves need the manager.
+    Aids to navigation are regulated — see
+    <a href="https://www.flrules.org/gateway/ChapterHome.asp?Chapter=68D-23">FWC 68D-23</a>
+    and, if the Coast Guard would treat it as a PATON, their PATON rules.
+    Hull yellow or white with reflective tape. Do not paint it like a channel marker.
+  </p>
+
+  <h2>Mooring</h2>
+  <p>Scope for wind and tide. Keep probes off the bottom. Note the GPS fix on first wake so you can find it again.</p>
+
+  <h2>What “healthy” last-seen looks like</h2>
+  <ul>
+    <li>A new row about every 15 minutes (900 s) while the battery is up.</li>
+    <li>Battery not collapsing overnight if the 10 W panel saw sun the day before.</li>
+    <li>DO below 2 mg/L is an ecological hypoxia rule of thumb on the dashboard — not an FDEP lab limit.</li>
+    <li>GitHub Pages gauges are fixture data labeled simulated. Trust only the site you host.</li>
+  </ul>
+
+  <div class="callout">Do not publish kit readings as regulatory data. Do not claim a named preserve deployment without written permission.</div>
+  <div class="checkpoint">
+    <strong>Checkpoint.</strong> You have written permission, a mooring plan, and a dashboard last-seen you understand. The project stops being a kit and starts being your station.
+  </div>
+  <div class="pager">
+    <a href={`${import.meta.env.BASE_URL}build/bucket/`}>← Bucket</a>
+    <a href={`${import.meta.env.BASE_URL}docs/accuracy/`}>Limits and citations →</a>
+  </div>
+</Base>
