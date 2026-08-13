@@ -31,3 +31,6 @@ Do **not** put jumper wires on header GPIO 4 (modem PWRKEY) or GPIO 5 (modem RST
 | Analog / DS18B20 GND | GND | Common ground |
 
 ESP32 analog math is 12-bit. Use `analogReadMilliVolts()` (Arduino-ESP32), not Uno `analogRead()/1024.0*5000`.
+
+DFRobot Gravity analog PH2.0 convention (SEN0169-V2 wiki pinout): **−** GND, **+** VCC, **A** analog. On the cable that is black / red / blue. Those three land on the screw-terminal breakout; only the signal wire is unique per GPIO.
+

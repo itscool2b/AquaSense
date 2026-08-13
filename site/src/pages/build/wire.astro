@@ -4,27 +4,28 @@ import Base from "../../layouts/Base.astro";
 <Base title="6. Wire the box — AquaSense">
   <p class="kicker">Step 6 of 9</p>
   <h1>Wire the box</h1>
-  <p class="lede">Gravity PH2.0 cables land on the screw-terminal breakout. Colors in this drawing are the colors in the steps. No custom PCB. No soldering required for the default path (optional on glands).</p>
-  <img src={`${import.meta.env.BASE_URL}images/wiring.svg`} alt="Color-coded Gravity wiring to T-A7670G GPIO 32, 34, 39, 18, 16, 17" style="margin:1.5rem 0;border-radius:12px;border:1px solid var(--line)" />
+  <p class="lede">Gravity PH2.0 cables land on the screw-terminal breakout. Cable colors are DFRobot’s: red +, black −, blue analog. Highlight colors in the drawing are which probe. No custom PCB.</p>
+  <img src={`${import.meta.env.BASE_URL}images/wiring.svg`} alt="Gravity red black blue into screw terminals, then GPIO 32 34 39 18 16 17" style="margin:1.5rem 0;border-radius:12px;border:1px solid var(--line)" />
   <table>
-    <thead><tr><th>Probe</th><th>Signal</th><th>GPIO</th><th>Color on drawing</th></tr></thead>
+    <thead><tr><th>Order</th><th>Probe</th><th>Gravity wires</th><th>GPIO</th><th>Highlight</th></tr></thead>
     <tbody>
-      <tr><td>SEN0169-V2 pH</td><td>analog</td><td>32</td><td style="color:#1FA6A0">seagrass</td></tr>
-      <tr><td>DFR0300-H EC</td><td>analog</td><td>34</td><td style="color:#E6D5B8">sand</td></tr>
-      <tr><td>SEN0237-A DO</td><td>analog</td><td>39</td><td style="color:#C4452D">rust</td></tr>
-      <tr><td>KIT0021 DS18B20</td><td>1-Wire</td><td>18</td><td>foam</td></tr>
-      <tr><td>MS5803-14BA</td><td>SDA / SCL</td><td>16 / 17</td><td style="color:#7EB6D9">sky</td></tr>
+      <tr><td>1</td><td>SEN0169-V2 pH</td><td>blue A, red +, black −</td><td>32</td><td style="color:#1FA6A0">seagrass</td></tr>
+      <tr><td>2</td><td>DFR0300-H EC</td><td>blue A, red +, black −</td><td>34</td><td style="color:#E6D5B8">sand</td></tr>
+      <tr><td>3</td><td>SEN0237-A DO</td><td>blue A, red +, black −</td><td>39</td><td style="color:#C4452D">rust</td></tr>
+      <tr><td>4</td><td>KIT0021 DS18B20</td><td>data / VCC / GND (kit pull-up)</td><td>18</td><td>foam</td></tr>
+      <tr><td>5</td><td>MS5803-14BA</td><td>SDA / SCL / 3V3 / GND</td><td>16 / 17</td><td style="color:#7EB6D9">sky</td></tr>
     </tbody>
   </table>
   <ul>
-    <li>Shared 3V3 and GND for analog transmitters. They stay powered (no MOSFET in this kit).</li>
+    <li>Wiki pinout for SEN0169-V2: − GND, + VCC 3.3–5.5 V, A analog 0–3.0 V, BNC to the probe. <a href="https://wiki.dfrobot.com/sen0169-v2/">DFRobot</a></li>
+    <li>Shared 3V3 and GND. Transmitters stay powered (no MOSFET).</li>
     <li>GPS SKU: GPIO 21/22 are GNSS UART. Do not use them as I2C.</li>
-    <li>Do not jumper GPIO 4 or 5.</li>
-    <li>PG glands through the <em>bottom</em> of the Pelican. Silicone on threads. Strain-relief the cables inside.</li>
+    <li>Do not jumper GPIO 4 or 5. Remove the microSD card before USB flash (GPIO 2).</li>
+    <li>PG glands through the <em>bottom</em> of the Pelican. Silicone on threads.</li>
   </ul>
-  <p class="muted">Pin numbers: <a href="https://github.com/Xinyuan-LilyGO/LilyGo-Modem-Series/blob/main/docs/en/esp32/a7670-esp32/README.MD">LilyGO A7670 ESP32 README</a>. Same table in <code>hardware/pinmap.md</code> and <code>firmware/include/pins.h</code>.</p>
+  <p class="muted">GPIO numbers: <a href="https://github.com/Xinyuan-LilyGO/LilyGo-Modem-Series/blob/main/docs/en/esp32/a7670-esp32/README.MD">LilyGO A7670 ESP32 README</a>. Same table in <code>hardware/pinmap.md</code> and <code>firmware/include/pins.h</code>. If a picture disagrees, the table wins.</p>
   <div class="checkpoint">
-    <strong>Checkpoint.</strong> A photo of the inside of the box matches the SVG: pH on 32, EC on 34, DO on 39, temp on 18, pressure on 16/17. No wires on 4 or 5.
+    <strong>Checkpoint.</strong> Inside the box: pH 32, EC 34, DO 39, temp 18, pressure 16/17. Five cables. No wires on 4 or 5.
   </div>
   <div class="pager">
     <a href={`${import.meta.env.BASE_URL}build/calibrate/`}>← Calibrate</a>

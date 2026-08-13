@@ -32,4 +32,5 @@ npm run build
 cd selfhost
 docker compose up --build
 python3 ../scripts/simulate-buoy.py
+COUNT=96 python3 ../scripts/simulate-buoy.py   # 24h of chart points
 ```

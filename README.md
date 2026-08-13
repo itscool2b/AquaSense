@@ -4,6 +4,8 @@
 
 ![AquaSense PVC solar buoy on Florida water at dusk](hardware/diagrams/hero-buoy.png)
 
+*Generated photoreal of the 24″ PVC-square hull (Pelican 1120, solar on the lid). Not a field photo. Parts count: [labeled isometric](hardware/diagrams/buoy-isometric.png) and [exploded SVG](hardware/diagrams/exploded.svg).*
+
 Open-source hardware kit. Order the parts, build the hull, flash the board, point it at **your** ingest URL. This repository is the kit. **We host no servers, no database, and no live fleet.**
 
 GitHub Pages is documentation plus a [dashboard of fixture JSON](https://itscool2b.github.io/AquaSense/dashboard/) labeled **simulated**. Live numbers come from `docker compose up` on a machine you control. After the first push, set the repo’s Pages source to **GitHub Actions**.
@@ -20,7 +22,7 @@ Temperature, pH, conductivity → practical salinity, dissolved oxygen (mg/L and
 
 ## Cost, honestly
 
-A [YSI EXO2](https://www.ysi.com/exo2) lists around **$7,300–$8,450** before sensors ([Fondriest](https://www.fondriest.com/ysi-exo2-multiparameter-sonde.htm)). A NexSens-class buoy is another few thousand. This kit’s [BOM](bom/bom.csv) sums to about **$780** of street prices — check the linked pages; they move.
+A [YSI EXO2](https://www.ysi.com/exo2) lists around **$7,300–$8,450** before sensors ([Fondriest](https://www.fondriest.com/ysi-exo2-multiparameter-sonde.htm)). A NexSens-class buoy is another few thousand. This kit’s [BOM](bom/bom.csv) sums to about **$866** of street prices — check the linked pages; they move.
 
 This hardware **has not been in a lake**. Specs are copied from manufacturer wikis. See [limits](https://itscool2b.github.io/AquaSense/docs/accuracy/).
 
@@ -67,7 +69,7 @@ Open http://127.0.0.1:8080. The LTE radio cannot see localhost — put the same 
 
 Numbered high-school steps: [buy → host → flash → config → calibrate → wire → hull → bucket → water](https://itscool2b.github.io/AquaSense/build/).
 
-![Isometric hull](hardware/diagrams/buoy-isometric.png)
+![Labeled isometric of the PVC square, Pelican, solar on the lid, five sensors](hardware/diagrams/buoy-isometric.png)
 
 ## Licenses
 

@@ -6,13 +6,19 @@ import Base from "../../layouts/Base.astro";
   <h1>Stand up your website</h1>
   <p class="lede">A solar buoy that sits on the water, measures a few stats, uses cellular internet to send them to a website you host. This step is the website. We do not run one.</p>
 
+  <div class="callout">
+    <strong>The LTE radio cannot see this laptop.</strong> The simulator is how you test the website.
+    The buoy only POSTs if <code>ingest_url</code> is a public <code>https://</code> address (your VPS or a tunnel in front of port 8080).
+  </div>
+
   <p>Install Docker Desktop (or Docker Engine). From the repo:</p>
   <pre><code>cd selfhost
 cp .env.example .env
 docker compose up --build</code></pre>
   <p>Open <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>. Then, in another terminal:</p>
   <pre><code>python3 scripts/simulate-buoy.py</code></pre>
-  <p>Refresh the dashboard. You should see gauges fill with a simulated reading. No hardware yet.</p>
+  <p>Refresh the dashboard. You should see gauges, 24h/7d charts, and a map pin. No hardware yet. For a full day of chart points:</p>
+  <pre><code>COUNT=96 python3 scripts/simulate-buoy.py</code></pre>
 
   <h2>The buoy cannot see localhost</h2>
   <p>

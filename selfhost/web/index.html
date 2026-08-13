@@ -16,9 +16,17 @@
       </p>
       <p id="status" class="muted">Waiting for the first POST…</p>
       <div id="gauges" class="gauges"></div>
-      <p class="muted" style="margin-top:1.5rem">
-        Hypoxia rule of thumb: DO below 2 mg/L (ecological, not an FDEP lab limit).
-      </p>
+      <div class="chart-head">
+        <h2>Charts</h2>
+        <div class="seg">
+          <button type="button" data-range="24h" class="on">24h</button>
+          <button type="button" data-range="7d">7d</button>
+        </div>
+      </div>
+      <p class="muted">Dashed rust line on DO is 2 mg/L hypoxia (ecological rule of thumb, not an FDEP lab limit).</p>
+      <div class="chart-grid" id="charts"></div>
+      <h2>Map</h2>
+      <div id="mapwrap"></div>
     </div>
     <script src="/static/dashboard.js"></script>
   </body>
