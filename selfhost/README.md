@@ -12,6 +12,7 @@ Open http://127.0.0.1:8080 then:
 
 ```bash
 python3 ../scripts/simulate-buoy.py
+COUNT=96 python3 ../scripts/simulate-buoy.py
 ```
 
 `POST /api/v1/ingest` expects JSON with `device_id`, `token` (or `Authorization: Bearer`),
