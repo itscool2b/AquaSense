@@ -1,36 +1,27 @@
 # Contributing
 
-AquaSense is a solar buoy that sits on the water, measures a few stats, and
-uses cellular internet to send them to a website you host.
+AquaSense is an open-source monitor for pH, ORP and temperature. Fixes, new sensors, better docs and build
+reports are all welcome.
 
-## Before you open a PR
+## Before you open a pull request
 
-- Pin numbers must match [hardware/pinmap.md](hardware/pinmap.md).
-- Specs must cite a manufacturer URL. If you cannot cite it, omit it.
-- Buy links must open the correct SKU.
-- Do not add a hosted cloud, a second kit SKU, or turbidity as NTU.
+- Pin numbers must match [`hardware/README.md`](hardware/README.md) and
+  [`firmware/AquaSense/config.h`](firmware/AquaSense/config.h).
+- Specs and prices need a manufacturer or seller link. If you can't cite it, leave it out.
+- Keep the box low voltage: no mains wiring inside the enclosure.
+- Tested your build against a reference meter? Share the numbers in an issue. Real-world data helps everyone.
 
-## Firmware
-
-```bash
-cd firmware
-pio test -e native
-pio run -e lilygo-t-a7670g
-```
-
-## Site
+## Checks
 
 ```bash
-cd site
-npm install
-npm run build
-```
+# Firmware: filter tests (no ESP32 needed) and an ESP32 compile
+make -C firmware test
+cd firmware && pio run
 
-## Self-host
+# Server: alert-rule tests
+cd selfhost && pip install -r api/requirements.txt pytest && python -m pytest
 
-```bash
-cd selfhost
-docker compose up --build
-python3 ../scripts/simulate-buoy.py
-COUNT=96 python3 ../scripts/simulate-buoy.py   # 24h of chart points
+# Server end to end
+cd selfhost && docker compose up --build
+python3 scripts/simulate-device.py
 ```

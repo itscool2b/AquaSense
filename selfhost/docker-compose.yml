@@ -8,6 +8,7 @@ services:
     volumes:
       - ./data:/var/lib/postgresql/data
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U aquasense -d aquasense"]
       interval: 3s
@@ -22,6 +23,16 @@ services:
       DATABASE_URL: postgresql://aquasense:${POSTGRES_PASSWORD:-aquasense}@db:5432/aquasense
       INGEST_TOKEN: ${INGEST_TOKEN:-change-me}
       WEB_DIR: /app/web
+      PH_MIN: ${PH_MIN-7.2}
+      PH_MAX: ${PH_MAX-7.8}
+      ORP_MIN: ${ORP_MIN-650}
+      ORP_MAX: ${ORP_MAX-}
+      TEMP_MIN: ${TEMP_MIN-}
+      TEMP_MAX: ${TEMP_MAX-32}
+      ALERT_MINUTES: ${ALERT_MINUTES:-15}
+      STALE_MINUTES: ${STALE_MINUTES:-5}
+      ALERT_WEBHOOK_URL: ${ALERT_WEBHOOK_URL:-}
+    restart: unless-stopped
     depends_on:
       db:
         condition: service_healthy

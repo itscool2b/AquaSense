@@ -1,19 +1,14 @@
-CREATE TABLE IF NOT EXISTS readings (
-  id BIGSERIAL PRIMARY KEY,
-  device_id TEXT NOT NULL,
-  ts TIMESTAMPTZ NOT NULL DEFAULT now(),
-  lat DOUBLE PRECISION,
-  lon DOUBLE PRECISION,
-  temp_c DOUBLE PRECISION,
-  ph DOUBLE PRECISION,
-  spcond_ms_cm DOUBLE PRECISION,
-  sal_psu DOUBLE PRECISION,
-  do_mgl DOUBLE PRECISION,
-  do_pct DOUBLE PRECISION,
-  depth_m DOUBLE PRECISION,
-  batt_v DOUBLE PRECISION,
-  rssi INTEGER,
-  fw TEXT
+-- One row per upload from a monitor (every 60 s by default).
+-- Plain Postgres: works in the bundled container or any hosted Postgres.
+CREATE TABLE IF NOT EXISTS measurements (
+  id          BIGSERIAL PRIMARY KEY,
+  device_id   TEXT NOT NULL,
+  timestamp   TIMESTAMPTZ NOT NULL DEFAULT now(),
+  ph          DOUBLE PRECISION,           -- null when the pH board did not answer
+  orp         DOUBLE PRECISION,           -- millivolts
+  temperature DOUBLE PRECISION,           -- degrees C
+  rssi        INTEGER,                    -- Wi-Fi signal, dBm
+  fw          TEXT                        -- firmware version
 );
 
-CREATE INDEX IF NOT EXISTS readings_device_ts ON readings (device_id, ts DESC);
+CREATE INDEX IF NOT EXISTS measurements_device_time ON measurements (device_id, timestamp DESC);

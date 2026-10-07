@@ -1,8 +1,9 @@
-# Conversion helpers (no Arduino, no PlatformIO required)
+# Filter tests run on a computer (no ESP32, no PlatformIO needed).
 CXX ?= g++
-CXXFLAGS ?= -std=c++17 -Wall -Wextra -Iinclude
+CXXFLAGS ?= -std=c++17 -Wall -Wextra -IAquaSense
+OUT ?= /tmp/aquasense_filter_test
 
 .PHONY: test
 test:
-	$(CXX) $(CXXFLAGS) src/convert.cpp test/test_convert/test_native.cpp -o /tmp/aquasense_convert_test
-	/tmp/aquasense_convert_test
+	$(CXX) $(CXXFLAGS) AquaSense/filters.cpp test/test_filters.cpp -o $(OUT)
+	$(OUT)
