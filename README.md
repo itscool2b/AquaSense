@@ -1,6 +1,6 @@
 # AquaSense
 
-**An open-source water-quality monitor that measures pH, ORP and temperature around the clock and sends
+**An open-source water-quality monitor that measures pH, ORP, and temperature around the clock and sends
 the readings over Wi-Fi to a dashboard you can check from your phone.**
 
 [![Firmware: MIT](https://img.shields.io/badge/firmware-MIT-1fa6a0)](LICENSE)
@@ -15,7 +15,7 @@ Water chemistry changes all day. Sunlight burns off chlorine, rain dilutes it, a
 and chemical additions shift pH. A test strip only shows one moment, taken by hand. AquaSense measures every
 few seconds, keeps the history, and warns you when something stays out of range.
 
-All of it is open: firmware, wiring, parts list, enclosure layout, server, database schema and dashboard.
+All of it is open: firmware, wiring, parts list, enclosure layout, server, database schema, and dashboard.
 Anyone can build one, check how it works, or improve it.
 
 ## What it does
@@ -24,7 +24,7 @@ Anyone can build one, check how it works, or improve it.
   sanitize) and water temperature.
 - **Corrects pH for temperature** automatically, so readings stay consistent as the water warms and cools.
 - **Shows live values** on a small display on the box.
-- **Logs everything over Wi-Fi** to a database, with graphs for the last hour, day, week and month.
+- **Logs everything over Wi-Fi** to a database, with graphs for the last hour, day, week, and month.
 - **Sends alerts** when a value stays out of range, a sensor stops answering, or the monitor goes offline.
 - **Has room to grow:** a spare isolated port takes one more compatible sensor.
 
@@ -32,7 +32,7 @@ Anyone can build one, check how it works, or improve it.
 
 | Use | What AquaSense shows |
 |---|---|
-| Home and community pools | Whether pH and sanitizer (ORP) stay in range between manual tests, and how they react to sun, rain, swimmers and chemical additions |
+| Home and community pools | Whether pH and sanitizer (ORP) stay in range between manual tests, and how they react to sun, rain, swimmers, and chemical additions |
 | Aquariums, ponds, hydroponics | Slow pH drift and temperature swings that are easy to miss with occasional testing |
 | Classrooms and science projects | Real, continuous chemistry data, plus a complete sensor-to-cloud system students can build and modify |
 | Makers on a budget | A documented path to a ~$420 monitor instead of a closed commercial unit |
@@ -53,11 +53,11 @@ flowchart LR
     SRV --> ALERT[Alerts to your phone]
 ```
 
-1. Every 2 seconds the ESP32 reads the temperature probe and sends that temperature to the pH interface for
+1. Every 2 seconds, the ESP32 reads the temperature probe and sends that temperature to the pH interface for
    compensation. Then it reads pH and ORP.
 2. It throws out impossible values and sudden spikes (`7.41, 7.40, 12.98, 7.41`: the `12.98` is electrical
    noise), then averages the last 10 good readings.
-3. Every 60 seconds it uploads one measurement:
+3. Every 60 seconds, it uploads one measurement:
    ```json
    {"device_id": "backyard-pool", "ph": 7.42, "orp": 681, "temperature": 27.4}
    ```
@@ -96,7 +96,7 @@ sketch in [`firmware/examples/`](firmware/examples/).
 | pH 4 / 7 / 10 and ORP 225 mV calibration solutions | $34 |
 | Breadboard, jumper wires, distilled water | $12 |
 
-Full list with part numbers, links and specs: [`bom/bom.csv`](bom/bom.csv).
+Full list with part numbers, links, and specs: [`bom/bom.csv`](bom/bom.csv).
 
 ### 2. Build and test layer by layer
 
@@ -108,7 +108,7 @@ Open the Serial Monitor at 115200 baud.
 |---|---|---|---|
 | 1 | ESP32 only, nothing else wired | `examples/01_hello` | `System running` once a second |
 | 2 | DS18B20 on GPIO 4, 4.7 kΩ to 3.3 V | `examples/02_temperature` | `Temperature: 25.63 C` with the probe in water |
-| 3 | pH board + probe on I²C (GPIO 21/22) | `examples/03_ph` | The reading changes between distilled water, tap water and pH 7 solution |
+| 3 | pH board + probe on I²C (GPIO 21/22) | `examples/03_ph` | The reading changes between distilled water, tap water, and pH 7 solution |
 | 4 | ORP board + probe on the same bus | `examples/04_orp` | `pH: 7.01 \| ORP: 225 mV` in the calibration solutions |
 | 5 | All three, filtering, display | `AquaSense/AquaSense.ino` | `Temperature: 27.3 C \| pH: 7.41 \| ORP: 684 mV` on serial and the display |
 | 6 | Wi-Fi + server (step 4 below) | `examples/05_wifi_post`, then `AquaSense` | `POST -> 200` and new points on the dashboard |
@@ -122,18 +122,18 @@ The interface boards store their calibration in their own memory, so it survives
 **pH** (three points; always start with 7, because calibrating the midpoint clears the others):
 
 1. Rinse the probe with distilled water. Shake or blot off the excess; don't wipe the glass bulb.
-2. Put it in pH 7.00 solution and wait until the reading stops changing.
+2. Put it in a pH 7.00 solution and wait until the reading stops changing.
 3. Type `cal ph 7`.
 4. Rinse, then repeat with pH 4.00 (`cal ph 4`) and pH 10.00 (`cal ph 10`).
 
-**ORP:** put the probe in the 225 mV solution, wait for it to settle, then type `cal orp 225`. If the box
-read 218 mV, it now applies the +7 mV correction itself.
+**ORP:** Put the probe in the 225 mV solution, wait for it to settle, then type `cal orp 225`. If the box
+reads 218 mV, it now applies the +7 mV correction itself.
 
 Recalibrate pH about every 3 months.
 
 ### 4. Run the server and dashboard
 
-On any computer that stays on, such as a Raspberry Pi, an old laptop or a small cloud server, with
+On any computer that stays on, such as a Raspberry Pi, an old laptop, or a small cloud server, with
 [Docker](https://docs.docker.com/get-docker/) installed:
 
 ```bash
@@ -179,9 +179,9 @@ Alerts appear on the dashboard. For push notifications on your phone, set `ALERT
 - Move the tested electronics into the enclosure. Use cable glands or waterproof jacks wherever a cable
   leaves the box.
 - Mount the box away from splashing.
-- **Keep it low voltage.** Power goes wall outlet → UL-listed 5 V USB adapter → box. Near a pool the outlet
+- **Keep it low voltage.** Power goes wall outlet → UL-listed 5 V USB adapter → box. Near a pool, the outlet
   must be GFCI-protected. Never put mains wiring inside the box.
-- Keep the probes submerged, in moving water, away from air bubbles, chemical injection points and pumps.
+- Keep the probes submerged, in moving water, away from air bubbles, chemical injection points, and pumps.
   A return line or sampling chamber is ideal.
 
 Details and drawings: [`hardware/README.md`](hardware/README.md).
@@ -196,8 +196,8 @@ AquaSense pH:  7.41
 Difference:   -0.03
 ```
 
-Track the average error, the largest error and the standard deviation. Then leave it running for 24 hours,
-then a week, and watch for Wi-Fi drops, slow drift, random spikes, probe fouling and power interruptions.
+Track the average error, the largest error, and the standard deviation. Then leave it running for 24 hours,
+then a week, and watch for Wi-Fi drops, slow drift, random spikes, probe fouling, and power interruptions.
 The firmware reconnects to Wi-Fi on its own and sends `null` rather than a made-up number when a sensor
 stops answering.
 
@@ -228,7 +228,7 @@ stops answering.
 
 ## License
 
-Free to use, build, modify and share:
+Free to use, build, modify, and share:
 
 | Part | License |
 |---|---|
