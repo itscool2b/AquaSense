@@ -18,6 +18,13 @@ few seconds, keeps the history, and warns you when something stays out of range.
 All of it is open: firmware, wiring, parts list, enclosure layout, server, database schema, and dashboard.
 Anyone can build one, check how it works, or improve it.
 
+## In use
+
+AquaSense is currently deployed in the alligator tank at **Tibet-Butler Preserve** in Orange County, Florida,
+where it provides constant pH, ORP, and temperature readings. We built and installed it as volunteers, free
+of charge, so the tank's water conditions can be watched around the clock instead of only at manual spot
+checks.
+
 ## What it does
 
 - **Measures continuously:** pH, ORP (oxidation-reduction potential, a measure of how strongly the water can
@@ -32,6 +39,7 @@ Anyone can build one, check how it works, or improve it.
 
 | Use | What AquaSense shows |
 |---|---|
+| Nature centers and animal habitats | Round-the-clock water conditions for animals in human care, like the alligator tank at Tibet-Butler Preserve |
 | Home and community pools | Whether pH and sanitizer (ORP) stay in range between manual tests, and how they react to sun, rain, swimmers, and chemical additions |
 | Aquariums, ponds, hydroponics | Slow pH drift and temperature swings that are easy to miss with occasional testing |
 | Classrooms and science projects | Real, continuous chemistry data, plus a complete sensor-to-cloud system students can build and modify |
